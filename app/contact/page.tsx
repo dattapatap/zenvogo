@@ -38,6 +38,7 @@ export default function ContactPage() {
         crumbs={[{ label: "Contact" }]}
         title="Let's start a conversation"
         text="Whether you represent an industry, an institution or an emerging venture, we'd love to hear what you're working on."
+        crystal={false}
       />
 
       <Section tone="light">

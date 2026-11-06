@@ -4,7 +4,6 @@ import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { ScribbleUnderline } from "@/components/ui/ScribbleUnderline";
 import { MasteryScene } from "@/components/three";
-import { icons, type IconName } from "@/lib/icons";
 
 type Props = {
   eyebrow?: string;
@@ -13,12 +12,6 @@ type Props = {
   primary?: { label: string; href: string };
   secondary?: { label: string; href: string };
 };
-
-const highlights: { icon: IconName; label: [string, string] }[] = [
-  { icon: "users", label: ["Industry", "Collaboration"] },
-  { icon: "graduation", label: ["Academic", "Excellence"] },
-  { icon: "globe", label: ["Global", "Learning Impact"] },
-];
 
 export function CTASection({
   eyebrow = "Partner With Zenvogo",
@@ -32,9 +25,9 @@ export function CTASection({
   secondary = { label: "Our Approach", href: "/approach" },
 }: Props) {
   return (
-    <section className="bg-background py-14 sm:py-18 lg:py-25">
+    <section className="bg-background py-8 sm:py-12 lg:py-14">
       <Container>
-        <Reveal className="dark-section relative isolate grid overflow-hidden rounded-3xl bg-[linear-gradient(115deg,#071a42_0%,#0a2560_55%,#0c3380_100%)] shadow-[0_40px_80px_-40px_rgb(8_29_72/0.6)] lg:grid-cols-[1.15fr_1fr]">
+        <Reveal className="dark-section relative isolate grid overflow-hidden rounded-3xl bg-[linear-gradient(115deg,#071a42_0%,#0a2560_55%,#0c3380_100%)] shadow-[0_32px_64px_-32px_rgb(8_29_72/0.6)] lg:grid-cols-[1.2fr_0.9fr]">
           {/* ── Background: flowing light waves + glows ── */}
           <svg
             aria-hidden
@@ -77,22 +70,22 @@ export function CTASection({
           />
 
           {/* ── Copy ── */}
-          <div className="flex flex-col justify-center gap-6 p-8 sm:p-12 lg:py-16 lg:pr-4 lg:pl-16">
+          <div className="flex flex-col justify-center gap-4 p-6 sm:p-8 lg:py-10 lg:pr-4 lg:pl-12">
             <Reveal>
-              <span className="inline-flex items-center gap-2 rounded-full border border-blue/40 bg-blue/20 px-4 py-1.5 text-sm font-medium text-white">
+              <span className="inline-flex items-center gap-2 rounded-full border border-blue/40 bg-blue/20 px-3.5 py-1 text-xs font-medium text-white sm:text-sm">
                 <GraduationCap className="size-4 text-orange" aria-hidden />
                 {eyebrow}
               </span>
             </Reveal>
             <Reveal delay={0.08}>
-              <h2 className="text-[30px] leading-[1.12] font-bold text-balance text-white sm:text-[42px] lg:text-[48px]">
+              <h2 className="text-[26px] leading-[1.15] font-bold text-balance text-white sm:text-[34px] lg:text-[40px]">
                 {title}
               </h2>
             </Reveal>
             <Reveal delay={0.16}>
-              <p className="max-w-xl text-white/75 sm:text-lg">{text}</p>
+              <p className="max-w-xl text-sm text-white/75 sm:text-base">{text}</p>
             </Reveal>
-            <Reveal delay={0.24} className="flex flex-wrap gap-3">
+            <Reveal delay={0.24} className="flex flex-wrap gap-3 pt-1">
               <Button href={primary.href} arrow>
                 {primary.label}
               </Button>
@@ -103,33 +96,13 @@ export function CTASection({
                 {secondary.label}
               </Button>
             </Reveal>
-            <Reveal delay={0.32}>
-              <ul className="mt-2 flex flex-wrap gap-y-4 sm:divide-x sm:divide-white/15">
-                {highlights.map((h) => {
-                  const Icon = icons[h.icon];
-                  return (
-                    <li
-                      key={h.label.join(" ")}
-                      className="flex items-center gap-3 pr-6 text-sm leading-tight text-white/85 sm:pl-6 sm:first:pl-0"
-                    >
-                      <Icon className="size-7 shrink-0 text-white" strokeWidth={1.5} aria-hidden />
-                      <span>
-                        {h.label[0]}
-                        <br />
-                        {h.label[1]}
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </Reveal>
           </div>
 
           {/* ── 3D scene with a glowing ring behind it ── */}
-          <div className="relative h-80 sm:h-[26rem] lg:h-auto lg:min-h-[30rem]">
+          <div className="relative flex h-64 items-center justify-center sm:h-72 lg:h-auto lg:min-h-[22rem]">
             <div
               aria-hidden
-              className="absolute top-1/2 left-1/2 aspect-square w-[78%] max-w-[26rem] -translate-x-1/2 -translate-y-[54%]"
+              className="absolute top-1/2 left-1/2 aspect-square w-[68%] max-w-[20rem] -translate-x-1/2 -translate-y-1/2"
             >
               <div className="absolute inset-0 animate-[spin_24s_linear_infinite] rounded-full bg-[conic-gradient(from_200deg,#ff6818,#ffb21a_12%,transparent_32%,transparent_55%,#0866d9_72%,#8fc1ff_82%,transparent_95%)] [mask:radial-gradient(farthest-side,transparent_calc(100%-3px),#000_calc(100%-2px))]" />
               <div className="absolute inset-0 animate-[spin_24s_linear_infinite] rounded-full bg-[conic-gradient(from_200deg,#ff6818,transparent_30%,transparent_60%,#0866d9_75%,transparent_95%)] opacity-70 blur-xl [mask:radial-gradient(farthest-side,transparent_calc(100%-14px),#000_calc(100%-6px))]" />

@@ -11,7 +11,7 @@ import { enquiryTypes, isEnquiryType } from "./enquiry";
 const initial: ContactState = { ok: false, message: "" };
 
 const inputCls =
-  "h-12 rounded-lg border border-border bg-white px-4 text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-blue focus:ring-3 focus:ring-blue/15";
+  "h-12 rounded-lg border border-[#c4d3e5] bg-white px-4 text-foreground outline-none transition-all placeholder:text-muted-foreground/70 hover:border-blue/50 focus:border-blue focus:ring-3 focus:ring-blue/15";
 
 export function ContactForm() {
   const params = useSearchParams();
@@ -23,7 +23,7 @@ export function ContactForm() {
       <motion.div
         initial={{ opacity: 0, scale: 0.97 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="flex flex-col items-center gap-4 card p-12 text-center"
+        className="flex flex-col items-center gap-4 rounded-2xl border border-[#c4d3e5] bg-white p-12 text-center shadow-[0_16px_40px_-12px_rgb(8_29_72/0.08)]"
         role="status"
       >
         <CheckCircle2 className="size-14 text-orange" />
@@ -60,7 +60,11 @@ function FormFields({
   defaultType: string;
 }) {
   return (
-    <form action={action} className="flex flex-col gap-5 card p-6 sm:p-10" noValidate>
+    <form
+      action={action}
+      className="flex flex-col gap-5 rounded-2xl border border-[#c4d3e5] bg-white p-6 shadow-[0_16px_40px_-12px_rgb(8_29_72/0.08)] sm:p-10"
+      noValidate
+    >
       <div>
         <h2 className="text-[26px] font-bold">Send us a message</h2>
         <p className="mt-1 text-sm text-muted-foreground">We reply within one business day.</p>

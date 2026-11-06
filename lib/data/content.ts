@@ -1,4 +1,5 @@
 import type { IconName } from "@/lib/icons";
+import type { CategorySlug } from "@/lib/data/programmes";
 
 type Item = { title: string; text: string; icon: IconName };
 
@@ -67,15 +68,74 @@ export const comparison = {
   ],
 };
 
-export const industries: { name: string; icon: IconName }[] = [
-  { name: "Real Estate & Construction", icon: "hardhat" },
-  { name: "Banking & Financial Services", icon: "bank" },
-  { name: "Manufacturing", icon: "factory" },
-  { name: "Healthcare & Life Sciences", icon: "health" },
-  { name: "Technology & IT Services", icon: "network" },
-  { name: "Logistics & Supply Chain", icon: "logistics" },
-  { name: "Retail & Consumer", icon: "briefcase" },
-  { name: "Energy & Infrastructure", icon: "idea" },
+export type Industry = {
+  name: string;
+  icon: IconName;
+  /** One-line description of what programmes for this sector focus on. */
+  text: string;
+  /** Typical programme themes for the sector. */
+  themes: string[];
+  /** Programme category whose programmes / certifications serve this sector. */
+  category: CategorySlug;
+};
+
+export const industries: Industry[] = [
+  {
+    name: "Real Estate & Construction",
+    category: "industry-operations",
+    icon: "hardhat",
+    text: "Leadership for a sector balancing project delivery, regulation and financing.",
+    themes: ["Project management", "Real-estate finance", "Regulatory compliance"],
+  },
+  {
+    name: "Banking & Financial Services",
+    category: "banking-finance",
+    icon: "bank",
+    text: "Capability for teams navigating risk, digital banking and changing customer needs.",
+    themes: ["Risk management", "Digital banking", "Credit & lending"],
+  },
+  {
+    name: "Manufacturing",
+    category: "industry-operations",
+    icon: "factory",
+    text: "Operational excellence and digital skills for modern, connected plants.",
+    themes: ["Lean operations", "Industry 4.0", "Quality management"],
+  },
+  {
+    name: "Healthcare & Life Sciences",
+    category: "industry-operations",
+    icon: "health",
+    text: "Management skills for hospitals, pharma and health-tech organisations.",
+    themes: ["Hospital management", "Healthcare operations", "Regulatory affairs"],
+  },
+  {
+    name: "Technology & IT Services",
+    category: "technology-ai",
+    icon: "network",
+    text: "Future-ready skills for teams building and scaling digital products and services.",
+    themes: ["AI & Generative AI", "Product management", "Cloud & data"],
+  },
+  {
+    name: "Logistics & Supply Chain",
+    category: "industry-operations",
+    icon: "logistics",
+    text: "Resilient, data-led supply chains from sourcing to last-mile delivery.",
+    themes: ["Supply chain strategy", "Warehousing & distribution", "Supply analytics"],
+  },
+  {
+    name: "Retail & Consumer",
+    category: "marketing-business",
+    icon: "briefcase",
+    text: "Customer-centric growth across stores, marketplaces and brands.",
+    themes: ["Customer experience", "Omnichannel retail", "Brand management"],
+  },
+  {
+    name: "Energy & Infrastructure",
+    category: "industry-operations",
+    icon: "idea",
+    text: "Leadership for the energy transition and large-scale infrastructure.",
+    themes: ["Sustainability & ESG", "Infrastructure finance", "Project governance"],
+  },
 ];
 
 /** Illustrative case study from the founder brief. */
@@ -84,28 +144,40 @@ export const caseStudy = {
   title: "Designing a programme for the builder community",
   intro:
     "An example of how a Zenvogo programme comes to life — starting with the people who'll use it.",
+  /** Summary of the example, drawn from the steps below. */
+  glance: [
+    { label: "Sector", value: "Real estate & construction" },
+    { label: "Who we asked", value: "Senior management across builder firms" },
+    { label: "Designed by", value: "Empanelled professors" },
+    { label: "Certified by", value: "A leading academic institution" },
+  ],
   steps: [
     {
       title: "Survey",
       text: "We ask senior management across builder firms about their biggest challenges.",
+      icon: "search",
     },
     {
       title: "Synthesise",
       text: "Responses are distilled into the themes that matter most to the sector.",
+      icon: "chart",
     },
     {
       title: "Design",
       text: "Empanelled professors build a curriculum and programme around those themes.",
+      icon: "design",
     },
     {
       title: "Partner",
       text: "We approach leading institutions to prepare and certify the course.",
+      icon: "handshake",
     },
     {
       title: "Offer",
       text: "We return to the industry with a ready programme and a credible institution.",
+      icon: "rocket",
     },
-  ],
+  ] satisfies Item[],
 };
 
 /** Who Zenvogo works with — used for audience paths. */
@@ -129,7 +201,7 @@ export const paths: (Item & { cta: string; href: string })[] = [
     text: "Join programmes built for the realities of your sector.",
     icon: "crown",
     cta: "Explore programmes",
-    href: "/solutions",
+    href: "/programs",
   },
   {
     title: "AI startups",

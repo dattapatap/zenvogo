@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { WaveField } from "@/components/three";
+import { cn } from "@/lib/utils";
 
 type Props = {
   eyebrow: string;
@@ -13,16 +14,39 @@ type Props = {
   children?: React.ReactNode;
   /** Optional 3D scene to replace the default particle wave. */
   scene?: React.ReactNode;
+  /** Show the floating wireframe crystal above the default particle wave. */
+  crystal?: boolean;
+  /** Enable or disable background 3D animations entirely. Defaults to true. */
+  animated?: boolean;
+  /** Extra classes for the section, e.g. more bottom padding for an overlapping card. */
+  className?: string;
 };
 
 /** Navy hero for inner pages with an animated 3D particle wave behind it. */
-export function PageHero({ eyebrow, title, text, crumbs, children, scene }: Props) {
+export function PageHero({
+  eyebrow,
+  title,
+  text,
+  crumbs,
+  children,
+  scene,
+  crystal = true,
+  animated = true,
+  className,
+}: Props) {
   return (
-    <section className="dark-section relative isolate overflow-hidden bg-navy py-16 text-white/75 sm:py-20 lg:py-28">
-      <div className="absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,black_55%,transparent)] opacity-70">
-        {!scene && <WaveField />}
-      </div>
-      {scene && (
+    <section
+      className={cn(
+        "dark-section relative isolate overflow-hidden bg-navy py-16 text-white/75 sm:py-20 lg:py-28",
+        className,
+      )}
+    >
+      {animated && !scene && (
+        <div className="absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,black_55%,transparent)] opacity-70">
+          <WaveField crystal={crystal} />
+        </div>
+      )}
+      {animated && scene && (
         <div className="absolute inset-y-0 right-0 -z-10 w-full opacity-30 sm:opacity-45 lg:w-[52%] lg:opacity-100">
           {scene}
         </div>

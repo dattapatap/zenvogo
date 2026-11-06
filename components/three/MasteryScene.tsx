@@ -320,7 +320,7 @@ export default function MasteryScene() {
       <directionalLight position={[3, 6, 5]} intensity={1.5} />
       <pointLight position={[-4, 2, 3]} intensity={25} color={SKY} />
       <pointLight position={[4, 0, 3]} intensity={30} color={ORANGE} />
-      <group position={[0, -0.55, 0]} scale={mobile ? 0.8 : 1}>
+      <group position={[0, -0.45, 0]} scale={mobile ? 0.65 : 0.82}>
         <Composition />
         <ContactShadows
           position={[0, -0.3, 0]}

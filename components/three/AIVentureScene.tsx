@@ -1,6 +1,6 @@
 "use client";
 
-import { Edges, Environment, Float, Lightformer, RoundedBox, Sparkles } from "@react-three/drei";
+import { Environment, Float, Lightformer, Sparkles } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
@@ -9,314 +9,348 @@ import { SceneShell } from "./SceneShell";
 import { StaticFallback } from "./StaticFallback";
 import { useScrollProgress } from "./scroll";
 
-const CHIP = 1.9; // chip width
-const HALF = CHIP / 2;
-const PINS_PER_SIDE = 7;
-const NAVY_BG = new THREE.Color("#081d48");
-const TRACE = new THREE.Color("#5c9cff");
+const BLUE = new THREE.Color("#0866d9");
+const SKY = new THREE.Color("#5c9cff");
+const GOLD = new THREE.Color("#ffb21a");
 
-/** Deterministic pseudo-random so the board is identical on every render. */
 function rand(seed: number) {
   const x = Math.sin(seed * 12.9898) * 43758.5453;
   return x - Math.floor(x);
 }
 
-type Path = { pts: THREE.Vector3[]; lengths: number[]; total: number };
+/** Generates a 3D coordinate on the cerebral cortex of a hemisphere. */
+function getBrainPoint(u: number, v: number, hemisphere: number, seed: number): THREE.Vector3 {
+  // u: latitude (0 at superior/top, PI at inferior/bottom)
+  // v: longitude around the hemisphere (0 to PI)
+  const phi = u;
+  const theta = hemisphere > 0 ? v * 0.94 + 0.06 : Math.PI - (v * 0.94 + 0.06);
 
-/** Circuit traces leaving every pin: straight, a 45° jog, then straight again. */
-function useCircuit() {
-  return useMemo(() => {
-    const paths: Path[] = [];
-    const sides = [
-      { dir: new THREE.Vector3(1, 0, 0), perp: new THREE.Vector3(0, 0, 1) },
-      { dir: new THREE.Vector3(-1, 0, 0), perp: new THREE.Vector3(0, 0, 1) },
-      { dir: new THREE.Vector3(0, 0, 1), perp: new THREE.Vector3(1, 0, 0) },
-      { dir: new THREE.Vector3(0, 0, -1), perp: new THREE.Vector3(1, 0, 0) },
-    ];
-    sides.forEach((side, si) => {
-      for (let k = 0; k < PINS_PER_SIDE; k++) {
-        const seed = si * 31 + k * 7;
-        const offset = ((k + 0.5) / PINS_PER_SIDE - 0.5) * (CHIP - 0.3);
-        const p0 = side.dir
-          .clone()
-          .multiplyScalar(HALF + 0.12)
-          .addScaledVector(side.perp, offset);
-        const p1 = p0.clone().addScaledVector(side.dir, 0.25 + rand(seed) * 0.6);
-        const sign = offset >= 0 ? 1 : -1;
-        const jog = 0.3 + rand(seed + 1) * 0.7;
-        const p2 = p1
-          .clone()
-          .addScaledVector(side.dir, jog)
-          .addScaledVector(side.perp, sign * jog);
-        const p3 = p2.clone().addScaledVector(side.dir, 0.4 + rand(seed + 2) * 1.3);
-        const pts = [p0, p1, p2, p3];
-        const lengths = [0, p0.distanceTo(p1), p1.distanceTo(p2), p2.distanceTo(p3)];
-        paths.push({ pts, lengths, total: lengths.reduce((a, b) => a + b, 0) });
-      }
-    });
+  // Anatomical proportions: elongated front-to-back (Z), curved top (Y), dual lobes (X)
+  let rx = 1.08;
+  const ry = 0.98;
+  let rz = 1.38;
 
-    // Segments ordered by tier (all first legs, then second, then third) so the
-    // draw range reveals the circuit growing outward from the chip.
-    const pos: number[] = [];
-    const col: number[] = [];
-    const c = new THREE.Color();
-    for (let tier = 0; tier < 3; tier++) {
-      paths.forEach(({ pts }) => {
-        for (const v of [pts[tier], pts[tier + 1]]) {
-          pos.push(v.x, v.y, v.z);
-          // Fade traces into the navy background with distance.
-          const fade = THREE.MathUtils.clamp((v.length() - HALF) / 3.2, 0, 1);
-          c.copy(TRACE).lerp(NAVY_BG, fade * 0.85);
-          col.push(c.r, c.g, c.b);
-        }
-      });
-    }
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
-    geometry.setAttribute("color", new THREE.Float32BufferAttribute(col, 3));
-    return { paths, geometry, vertexCount: pos.length / 3 };
-  }, []);
-}
-
-function pointOnPath(path: Path, f: number, out: THREE.Vector3) {
-  let d = f * path.total;
-  for (let i = 1; i < path.pts.length; i++) {
-    if (d <= path.lengths[i] || i === path.pts.length - 1) {
-      return out.lerpVectors(path.pts[i - 1], path.pts[i], Math.min(1, d / path.lengths[i]));
-    }
-    d -= path.lengths[i];
+  // Flatten & tuck inferior temporal lobes and cerebellum
+  const isInferior = Math.cos(phi) < -0.15;
+  if (isInferior) {
+    rx *= 0.88;
+    rz *= 0.86;
   }
-  return out;
+
+  // Organic cerebral sulci & gyri (brain wrinkles)
+  const gyri =
+    Math.sin(phi * 7 + theta * 4) * 0.05 +
+    Math.cos(phi * 13 - theta * 9) * 0.025 +
+    (rand(seed) - 0.5) * 0.04;
+
+  let x = (rx + gyri) * Math.sin(phi) * Math.sin(theta);
+  const y = (ry + gyri) * Math.cos(phi);
+  const z = (rz + gyri) * Math.sin(phi) * Math.cos(theta);
+
+  // Shift hemisphere outward from central longitudinal fissure
+  x += hemisphere * 0.16;
+
+  // Flatten the medial wall facing the opposite hemisphere
+  if (hemisphere > 0 && x < 0.16) x = 0.16 + (x - 0.16) * 0.15;
+  if (hemisphere < 0 && x > -0.16) x = -0.16 + (x + 0.16) * 0.15;
+
+  return new THREE.Vector3(x, y, z);
 }
 
-/** Traces, end pads and data pulses flowing out from the chip. */
-function Circuit({ mobile, reveal }: { mobile: boolean; reveal: React.RefObject<number> }) {
-  const { paths, geometry, vertexCount } = useCircuit();
-  const pads = useRef<THREE.InstancedMesh>(null);
-  const pulses = useRef<THREE.InstancedMesh>(null);
-  const dummy = useMemo(() => new THREE.Object3D(), []);
-  const tmp = useMemo(() => new THREE.Vector3(), []);
-  const pulseCount = mobile ? 14 : 28;
-  const pulseData = useMemo(
-    () =>
-      Array.from({ length: pulseCount }, (_, i) => ({
-        path: paths[Math.floor(rand(i + 3) * paths.length)],
-        speed: 0.18 + rand(i + 9) * 0.3,
-        offset: rand(i + 17),
-      })),
-    [paths, pulseCount],
-  );
+/** Builds the neural network graph: synaptic nodes, axon lines, and active firing paths. */
+function useNeuralBrain(mobile: boolean) {
+  return useMemo(() => {
+    const nodes: THREE.Vector3[] = [];
+    const nodeHemispheres: number[] = [];
 
-  useLayoutEffect(() => {
-    const mesh = pads.current;
-    if (!mesh) return;
-    paths.forEach((p, i) => {
-      dummy.position.copy(p.pts[3]);
-      dummy.rotation.set(-Math.PI / 2, 0, 0);
-      dummy.scale.setScalar(1);
-      dummy.updateMatrix();
-      mesh.setMatrixAt(i, dummy.matrix);
+    const uSteps = mobile ? 11 : 14;
+    const vSteps = mobile ? 10 : 13;
+    let seedCounter = 1;
+
+    // 1. Generate synaptic nodes across Left (-1) and Right (+1) hemispheres
+    [-1, 1].forEach((h) => {
+      for (let ui = 1; ui < uSteps; ui++) {
+        const u = (ui / uSteps) * Math.PI;
+        for (let vi = 0; vi <= vSteps; vi++) {
+          const v = (vi / vSteps) * Math.PI;
+          seedCounter++;
+          const pt = getBrainPoint(u, v, h, seedCounter);
+          nodes.push(pt);
+          nodeHemispheres.push(h);
+        }
+      }
     });
-    mesh.instanceMatrix.needsUpdate = true;
-  }, [paths, dummy]);
 
-  useFrame(({ clock }) => {
-    const r = reveal.current;
-    geometry.setDrawRange(0, Math.floor((vertexCount * r) / 2) * 2);
-    if (pads.current) pads.current.visible = r > 0.95;
-    const mesh = pulses.current;
-    if (!mesh) return;
-    mesh.visible = r > 0.95;
-    pulseData.forEach((p, i) => {
-      const f = (clock.elapsedTime * p.speed + p.offset) % 1;
-      pointOnPath(p.path, f, tmp);
-      dummy.position.set(tmp.x, 0.02, tmp.z);
-      dummy.rotation.set(0, 0, 0);
-      dummy.scale.setScalar(0.6 + Math.sin(f * Math.PI) * 0.8);
-      dummy.updateMatrix();
-      mesh.setMatrixAt(i, dummy.matrix);
-    });
-    mesh.instanceMatrix.needsUpdate = true;
-  });
+    // 2. Compute axon connections between neighboring synapses
+    const connections: [number, number][] = [];
+    const maxDist = 0.48;
+    const n = nodes.length;
 
-  return (
-    <group>
-      <lineSegments geometry={geometry}>
-        <lineBasicMaterial vertexColors transparent opacity={0.9} />
-      </lineSegments>
-      <instancedMesh ref={pads} args={[undefined, undefined, paths.length]}>
-        <ringGeometry args={[0.035, 0.065, 16]} />
-        <meshBasicMaterial color="#8fc1ff" transparent opacity={0.7} side={THREE.DoubleSide} />
-      </instancedMesh>
-      <instancedMesh ref={pulses} args={[undefined, undefined, pulseCount]}>
-        <sphereGeometry args={[0.035, 8, 8]} />
-        <meshBasicMaterial color="#ffb21a" toneMapped={false} />
-      </instancedMesh>
-    </group>
-  );
-}
+    for (let i = 0; i < n; i++) {
+      let neighbors = 0;
+      for (let j = i + 1; j < n; j++) {
+        // Connect nodes in same hemisphere, or bridges across corpus callosum near center
+        const sameHemi = nodeHemispheres[i] === nodeHemispheres[j];
+        const isCenterBridge =
+          !sameHemi && Math.abs(nodes[i].z) < 0.6 && nodes[i].y > -0.2 && nodes[i].y < 0.4;
 
-/** The processor: metallic package, pins on every side and a glowing die. */
-function Chip() {
-  const die = useRef<THREE.MeshStandardMaterial>(null);
-  const pins = useRef<THREE.InstancedMesh>(null);
+        if (sameHemi || isCenterBridge) {
+          const dist = nodes[i].distanceTo(nodes[j]);
+          const threshold = isCenterBridge ? 0.42 : maxDist;
 
-  useLayoutEffect(() => {
-    const mesh = pins.current;
-    if (!mesh) return;
-    const d = new THREE.Object3D();
-    let n = 0;
-    for (let s = 0; s < 4; s++) {
-      for (let k = 0; k < PINS_PER_SIDE; k++) {
-        const offset = ((k + 0.5) / PINS_PER_SIDE - 0.5) * (CHIP - 0.3);
-        const along = s < 2;
-        const sign = s % 2 === 0 ? 1 : -1;
-        d.position.set(
-          along ? sign * (HALF + 0.06) : offset,
-          -0.02,
-          along ? offset : sign * (HALF + 0.06),
-        );
-        d.rotation.set(0, along ? 0 : Math.PI / 2, 0);
-        d.updateMatrix();
-        mesh.setMatrixAt(n++, d.matrix);
+          if (dist < threshold && neighbors < 4) {
+            connections.push([i, j]);
+            neighbors++;
+          }
+        }
       }
     }
-    mesh.instanceMatrix.needsUpdate = true;
-  }, []);
+
+    // 3. Build line segments buffer
+    const linePos: number[] = [];
+    const lineColors: number[] = [];
+    const c = new THREE.Color();
+
+    connections.forEach(([i, j], idx) => {
+      const p1 = nodes[i];
+      const p2 = nodes[j];
+      linePos.push(p1.x, p1.y, p1.z, p2.x, p2.y, p2.z);
+
+      // Gradient between brand cyan/sky and brand blue, with occasional gold synapses
+      const isGoldSynapse = idx % 9 === 0;
+      if (isGoldSynapse) {
+        c.copy(GOLD);
+      } else {
+        const t = (p1.y + 1) / 2;
+        c.copy(BLUE).lerp(SKY, t);
+      }
+      lineColors.push(c.r, c.g, c.b, c.r, c.g, c.b);
+    });
+
+    const lineGeometry = new THREE.BufferGeometry();
+    lineGeometry.setAttribute("position", new THREE.Float32BufferAttribute(linePos, 3));
+    lineGeometry.setAttribute("color", new THREE.Float32BufferAttribute(lineColors, 3));
+
+    return {
+      nodes,
+      connections,
+      lineGeometry,
+    };
+  }, [mobile]);
+}
+
+/** Inner glowing volumetric cerebral lobes */
+function BrainCores() {
+  const leftCore = useRef<THREE.Mesh>(null);
+  const rightCore = useRef<THREE.Mesh>(null);
+  const matRef = useRef<THREE.MeshPhysicalMaterial>(null);
 
   useFrame(({ clock }) => {
-    if (die.current) die.current.emissiveIntensity = 1.1 + Math.sin(clock.elapsedTime * 2) * 0.35;
+    if (matRef.current) {
+      // Gentle pulsing "thought" luminescence
+      matRef.current.emissiveIntensity = 0.55 + Math.sin(clock.elapsedTime * 2.2) * 0.2;
+    }
   });
 
   return (
     <group>
-      <RoundedBox args={[CHIP, 0.22, CHIP]} radius={0.06} smoothness={4}>
-        <meshPhysicalMaterial color="#0c2a63" metalness={0.75} roughness={0.25} clearcoat={1} />
-      </RoundedBox>
-      <instancedMesh ref={pins} args={[undefined, undefined, PINS_PER_SIDE * 4]}>
-        <boxGeometry args={[0.16, 0.05, 0.07]} />
-        <meshStandardMaterial color="#ffb21a" metalness={0.9} roughness={0.25} />
-      </instancedMesh>
-      {/* heat-spreader */}
-      <RoundedBox args={[CHIP * 0.72, 0.06, CHIP * 0.72]} radius={0.03} position={[0, 0.13, 0]}>
-        <meshPhysicalMaterial color="#dce8fb" metalness={0.9} roughness={0.18} clearcoat={1} />
-      </RoundedBox>
-      {/* glowing die */}
-      <mesh position={[0, 0.17, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[CHIP * 0.42, CHIP * 0.42]} />
-        <meshStandardMaterial
-          ref={die}
-          color="#0866d9"
+      {/* Left hemisphere inner mass */}
+      <mesh ref={leftCore} position={[-0.62, 0.02, 0]} scale={[0.82, 0.9, 1.15]}>
+        <sphereGeometry args={[0.9, 32, 24]} />
+        <meshPhysicalMaterial
+          ref={matRef}
+          color="#061d4a"
           emissive="#0866d9"
-          emissiveIntensity={1.2}
-          toneMapped={false}
+          emissiveIntensity={0.6}
+          roughness={0.2}
+          metalness={0.15}
+          transmission={0.65}
+          thickness={0.8}
+          transparent
+          opacity={0.85}
+          clearcoat={1}
         />
-        <Edges color="#ff6818" />
       </mesh>
-      <pointLight position={[0, 0.6, 0]} color="#5c9cff" intensity={6} distance={4} />
+
+      {/* Right hemisphere inner mass */}
+      <mesh ref={rightCore} position={[0.62, 0.02, 0]} scale={[0.82, 0.9, 1.15]}>
+        <sphereGeometry args={[0.9, 32, 24]} />
+        <meshPhysicalMaterial
+          color="#061d4a"
+          emissive="#0866d9"
+          emissiveIntensity={0.6}
+          roughness={0.2}
+          metalness={0.15}
+          transmission={0.65}
+          thickness={0.8}
+          transparent
+          opacity={0.85}
+          clearcoat={1}
+        />
+      </mesh>
     </group>
   );
 }
 
-/** Holographic layers hovering above the chip; they spread apart with scroll. */
-function Hologram({ spread }: { spread: React.RefObject<number> }) {
-  const layers = useRef<(THREE.Group | null)[]>([]);
-  useFrame(({ clock }, d) => {
-    layers.current.forEach((g, i) => {
-      if (!g) return;
-      const target = 0.55 + i * (0.22 + spread.current * 0.28);
-      g.position.y = THREE.MathUtils.damp(g.position.y, target, 4, d);
-      g.rotation.y = clock.elapsedTime * (0.25 + i * 0.12) * (i % 2 ? -1 : 1);
+/** Synaptic Thought Impulses firing continuously across neural pathways */
+function ActionPotentials({
+  nodes,
+  connections,
+  count = 32,
+}: {
+  nodes: THREE.Vector3[];
+  connections: [number, number][];
+  count?: number;
+}) {
+  const mesh = useRef<THREE.InstancedMesh>(null);
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+  const tempPos = useMemo(() => new THREE.Vector3(), []);
+
+  const impulses = useMemo(() => {
+    return Array.from({ length: count }, (_, i) => ({
+      connectionIdx: Math.floor(rand(i * 17 + 5) * connections.length),
+      speed: 0.6 + rand(i * 31 + 7) * 1.2,
+      progress: rand(i * 43 + 11),
+      isOrange: i % 3 === 0,
+    }));
+  }, [connections.length, count]);
+
+  useFrame((_, delta) => {
+    const im = mesh.current;
+    if (!im || connections.length === 0) return;
+
+    impulses.forEach((imp, i) => {
+      imp.progress += delta * imp.speed;
+      if (imp.progress >= 1) {
+        imp.progress = 0;
+        // Hop to another random connection
+        imp.connectionIdx = Math.floor(rand(i + performance.now()) * connections.length);
+      }
+
+      const [n1, n2] = connections[imp.connectionIdx];
+      tempPos.lerpVectors(nodes[n1], nodes[n2], imp.progress);
+
+      dummy.position.copy(tempPos);
+      const scale = (Math.sin(imp.progress * Math.PI) * 0.05 + 0.04) * (imp.isOrange ? 1.3 : 1);
+      dummy.scale.setScalar(scale);
+      dummy.updateMatrix();
+
+      im.setMatrixAt(i, dummy.matrix);
     });
+
+    im.instanceMatrix.needsUpdate = true;
   });
-  const sizes = [1.3, 1.0, 0.7];
+
+  return (
+    <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
+      <sphereGeometry args={[1, 10, 10]} />
+      <meshBasicMaterial color="#ffb21a" toneMapped={false} />
+    </instancedMesh>
+  );
+}
+
+/** Holographic orbital rings representing quantum computing & AI synthesis */
+function NeuralRings() {
+  const ringARef = useRef<THREE.Group>(null);
+  const ringBRef = useRef<THREE.Group>(null);
+
+  useFrame(({ clock }) => {
+    const t = clock.elapsedTime;
+    if (ringARef.current) {
+      ringARef.current.rotation.z = t * 0.35;
+      ringARef.current.rotation.y = Math.sin(t * 0.2) * 0.2;
+    }
+    if (ringBRef.current) {
+      ringBRef.current.rotation.z = -t * 0.25;
+      ringBRef.current.rotation.x = Math.cos(t * 0.25) * 0.2;
+    }
+  });
+
   return (
     <group>
-      {sizes.map((s, i) => (
-        <group key={i} ref={(g) => void (layers.current[i] = g)} position={[0, 0.55 + i * 0.22, 0]}>
-          <mesh rotation={[-Math.PI / 2, 0, Math.PI / 4]}>
-            <planeGeometry args={[s, s]} />
-            <meshBasicMaterial
-              color={i === 2 ? "#ff6818" : "#5c9cff"}
-              transparent
-              opacity={i === 2 ? 0.35 : 0.12}
-              side={THREE.DoubleSide}
-              depthWrite={false}
-            />
-            <Edges color={i === 2 ? "#ffb21a" : "#8fc1ff"} />
-          </mesh>
-        </group>
-      ))}
-    </group>
-  );
-}
-
-/** Small data cubes rising from the board and fading out, on a loop. */
-function DataCubes({ count }: { count: number }) {
-  const refs = useRef<(THREE.Mesh | null)[]>([]);
-  const cubes = useMemo(
-    () =>
-      Array.from({ length: count }, (_, i) => {
-        const a = rand(i + 41) * Math.PI * 2;
-        const r = 1.6 + rand(i + 43) * 1.6;
-        return {
-          x: Math.cos(a) * r,
-          z: Math.sin(a) * r,
-          speed: 0.15 + rand(i + 47) * 0.2,
-          offset: rand(i + 53),
-        };
-      }),
-    [count],
-  );
-  useFrame(({ clock }) => {
-    cubes.forEach((c, i) => {
-      const m = refs.current[i];
-      if (!m) return;
-      const f = (clock.elapsedTime * c.speed + c.offset) % 1;
-      m.position.set(c.x, f * 2.2, c.z);
-      m.rotation.set(f * 3, f * 4, 0);
-      (m.material as THREE.MeshStandardMaterial).opacity = Math.sin(f * Math.PI) * 0.85;
-    });
-  });
-  return (
-    <>
-      {cubes.map((_, i) => (
-        <mesh key={i} ref={(m) => void (refs.current[i] = m)}>
-          <boxGeometry args={[0.12, 0.12, 0.12]} />
+      {/* Primary Equatorial Neural Ring */}
+      <group ref={ringARef} rotation={[0.45, 0.2, 0.2]}>
+        <mesh>
+          <torusGeometry args={[2.15, 0.015, 16, 80]} />
+          <meshBasicMaterial color="#5c9cff" transparent opacity={0.65} />
+        </mesh>
+        {/* Orbital data node */}
+        <mesh position={[2.15, 0, 0]}>
+          <sphereGeometry args={[0.06, 12, 12]} />
           <meshStandardMaterial
-            color={i % 3 ? "#8fc1ff" : "#ffb21a"}
-            emissive={i % 3 ? "#0866d9" : "#ff6818"}
-            emissiveIntensity={0.6}
-            transparent
+            color="#5c9cff"
+            emissive="#5c9cff"
+            emissiveIntensity={1.5}
+            toneMapped={false}
           />
         </mesh>
-      ))}
-    </>
+      </group>
+
+      {/* Secondary Tilted Innovation Ring */}
+      <group ref={ringBRef} rotation={[-0.6, -0.3, 0.4]}>
+        <mesh>
+          <torusGeometry args={[2.35, 0.012, 16, 80]} />
+          <meshBasicMaterial color="#ff6818" transparent opacity={0.5} />
+        </mesh>
+        {/* Orbital innovation node */}
+        <mesh position={[2.35, 0, 0]}>
+          <sphereGeometry args={[0.07, 12, 12]} />
+          <meshStandardMaterial
+            color="#ffb21a"
+            emissive="#ff6818"
+            emissiveIntensity={2}
+            toneMapped={false}
+          />
+        </mesh>
+      </group>
+    </group>
   );
 }
 
-function Board({ mobile }: { mobile: boolean }) {
+/** Synaptic Node Points located at every junction of the brain cortex */
+function SynapticNodes({ nodes }: { nodes: THREE.Vector3[] }) {
+  const mesh = useRef<THREE.InstancedMesh>(null);
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+
+  useLayoutEffect(() => {
+    const im = mesh.current;
+    if (!im) return;
+    nodes.forEach((pt, i) => {
+      dummy.position.copy(pt);
+      dummy.scale.setScalar(0.032);
+      dummy.updateMatrix();
+      im.setMatrixAt(i, dummy.matrix);
+    });
+    im.instanceMatrix.needsUpdate = true;
+  }, [nodes, dummy]);
+
+  return (
+    <instancedMesh ref={mesh} args={[undefined, undefined, nodes.length]}>
+      <sphereGeometry args={[1, 8, 8]} />
+      <meshBasicMaterial color="#8fc1ff" toneMapped={false} />
+    </instancedMesh>
+  );
+}
+
+/** Entire AI Brain assembly with neural network cortex, firing impulses, and core glow. */
+function AIBrain({ mobile }: { mobile: boolean }) {
   const root = useRef<THREE.Group>(null);
   const scroll = useScrollProgress();
-  const reveal = useRef(0);
-  const spread = useRef(0);
+  const { nodes, connections, lineGeometry } = useNeuralBrain(mobile);
 
-  useFrame(({ pointer }, d) => {
+  useFrame(({ pointer, clock }, d) => {
     const t = scroll.current.t;
-    // Circuit draws itself as the section scrolls in; layers lift apart towards the centre.
-    const target = THREE.MathUtils.clamp((t + 0.45) / 0.35, 0, 1);
-    reveal.current = THREE.MathUtils.damp(reveal.current, target, 3, d);
-    spread.current = THREE.MathUtils.damp(spread.current, 1 - Math.min(1, Math.abs(t) * 2.5), 3, d);
     if (root.current) {
+      // Smooth dynamic rotation driven by pointer and scroll
       root.current.rotation.y = THREE.MathUtils.damp(
         root.current.rotation.y,
-        0.6 + t * 1.6 + pointer.x * 0.25,
+        0.35 + t * 1.5 + pointer.x * 0.35 + Math.sin(clock.elapsedTime * 0.4) * 0.08,
         3,
         d,
       );
       root.current.rotation.x = THREE.MathUtils.damp(
         root.current.rotation.x,
-        0.55 + t * 0.35 - pointer.y * 0.12,
+        0.18 + t * 0.3 - pointer.y * 0.2,
         3,
         d,
       );
@@ -324,53 +358,76 @@ function Board({ mobile }: { mobile: boolean }) {
   });
 
   return (
-    <group ref={root} position={[0, -0.35, 0]}>
-      <Circuit mobile={mobile} reveal={reveal} />
-      <Float speed={1.4} floatIntensity={0.25} rotationIntensity={0}>
-        <Chip />
-        <Hologram spread={spread} />
-      </Float>
-      <DataCubes count={mobile ? 6 : 12} />
+    <group ref={root} position={[0, 0, 0]}>
+      {/* Semi-translucent inner brain hemispheres */}
+      <BrainCores />
+
+      {/* Neural network axon lines */}
+      <lineSegments geometry={lineGeometry}>
+        <lineBasicMaterial vertexColors transparent opacity={0.65} depthWrite={false} />
+      </lineSegments>
+
+      {/* Synaptic nodes */}
+      <SynapticNodes nodes={nodes} />
+
+      {/* Active firing thought signals */}
+      <ActionPotentials nodes={nodes} connections={connections} count={mobile ? 20 : 38} />
+
+      {/* Quantum orbital rings */}
+      <NeuralRings />
+
+      {/* Internal core illumination */}
+      <pointLight position={[0, 0, 0]} color="#5c9cff" intensity={12} distance={5} />
+      <pointLight position={[0, -0.4, 0.4]} color="#ff6818" intensity={8} distance={4} />
+      <pointLight position={[0, 0.5, -0.2]} color="#ffb21a" intensity={6} distance={3} />
     </group>
   );
 }
 
-/** AI processor on a circuit board — represents AI startup incubation and innovation. */
+/**
+ * 3D Neural AI Brain — represents AI startup incubation, deep learning,
+ * and next-generation venture acceleration.
+ */
 export default function AIVentureScene() {
   const mobile = useIsMobile();
   return (
     <SceneShell
-      camera={{ position: [0, 2.2, 7], fov: 42 }}
-      fallback={<StaticFallback src="/images/3d/glass-staircase.webp" alt="" />}
+      camera={{ position: [0, 0.2, 5.8], fov: 42 }}
+      fallback={<StaticFallback src="/images/3d/glass-staircase.webp" alt="AI Brain Network" />}
     >
-      <ambientLight intensity={0.35} />
-      <directionalLight position={[3, 6, 4]} intensity={1.4} />
-      <pointLight position={[-4, 2, 3]} intensity={20} color="#ff8a4c" />
+      <ambientLight intensity={0.4} />
+      <directionalLight position={[4, 5, 5]} intensity={1.6} />
+      <directionalLight position={[-4, -3, 3]} intensity={0.8} color="#0866d9" />
+
       <Environment resolution={128} frames={1}>
-        <Lightformer intensity={2} position={[0, 5, -2]} scale={[10, 3, 1]} />
+        <Lightformer intensity={2} position={[0, 5, -2]} scale={[10, 3, 1]} color="#ffffff" />
         <Lightformer
-          intensity={1.2}
+          intensity={1.5}
           position={[-5, 1, 2]}
           rotation-y={Math.PI / 2}
           scale={[6, 4, 1]}
           color="#8fc1ff"
         />
         <Lightformer
-          intensity={1}
+          intensity={1.2}
           position={[5, 0, 2]}
           rotation-y={-Math.PI / 2}
           scale={[5, 3, 1]}
           color="#ff6818"
         />
       </Environment>
-      <Board mobile={mobile} />
+
+      <Float speed={1.5} floatIntensity={0.28} rotationIntensity={0.08}>
+        <AIBrain mobile={mobile} />
+      </Float>
+
       <Sparkles
-        count={mobile ? 12 : 30}
-        scale={[9, 5, 6]}
-        size={1.6}
-        speed={0.3}
+        count={mobile ? 18 : 36}
+        scale={[7, 5, 5]}
+        size={1.8}
+        speed={0.35}
         color="#bcd8ff"
-        opacity={0.5}
+        opacity={0.65}
       />
     </SceneShell>
   );

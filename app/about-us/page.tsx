@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { Eye, Flag } from "lucide-react";
+import { Check, Eye, Flag, X } from "lucide-react";
 import { siteConfig } from "@/config/site";
-import { teamBackgrounds, values } from "@/lib/data/content";
+import { comparison, teamBackgrounds, values } from "@/lib/data/content";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
 import { Accent, SectionHeading } from "@/components/ui/SectionHeading";
 import { IconBadge } from "@/components/ui/IconBadge";
 import { Button } from "@/components/ui/Button";
+import { ParallaxImage } from "@/components/ui/ParallaxImage";
 import { PageHero } from "@/components/sections/PageHero";
 import { CTASection } from "@/components/sections/CTASection";
 
@@ -56,7 +57,73 @@ export default function AboutPage() {
         </Container>
       </Section>
 
+      {/* Why we're different (moved from the homepage) */}
       <Section tone="light">
+        <Container className="grid items-center gap-12 lg:grid-cols-2">
+          <div className="flex flex-col gap-6">
+            <SectionHeading
+              eyebrow="Why we're different"
+              title={
+                <>
+                  Beyond traditional <Accent>learning models.</Accent>
+                </>
+              }
+              text="Most learning platforms sell what institutions already offer. Zenvogo starts with the industry — its people, its challenges, its future — and builds programmes around them with leading academic experts and institutions."
+            />
+            <Reveal className="flex flex-wrap gap-3">
+              <Button href="/approach" variant="secondary" arrow>
+                Our Approach
+              </Button>
+              <Button href="/programs" variant="outline" className="bg-white">
+                Explore Programmes
+              </Button>
+            </Reveal>
+          </div>
+
+          <div className="relative">
+            <Reveal>
+              <ParallaxImage
+                src="/images/3d/book-staircase.webp"
+                alt="Books arranged as a staircase leading up to a graduation cap"
+                className="aspect-[16/10] rounded-2xl bg-white shadow-[var(--shadow-card)]"
+              />
+            </Reveal>
+            <Reveal
+              delay={0.15}
+              className="relative -mt-16 grid overflow-hidden card sm:mx-8 sm:grid-cols-2"
+            >
+              <div className="p-7">
+                <p className="text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
+                  Typical platforms
+                </p>
+                <ul className="mt-5 flex flex-col gap-4">
+                  {comparison.them.map((t) => (
+                    <li key={t} className="flex gap-3 text-sm text-muted-foreground">
+                      <X className="mt-0.5 size-4 shrink-0 text-muted-foreground/60" />
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="dark-section bg-navy p-7 text-white/85">
+                <p className="text-xs font-semibold tracking-[0.14em] text-gold uppercase">
+                  The Zenvogo way
+                </p>
+                <ul className="mt-5 flex flex-col gap-4">
+                  {comparison.us.map((t) => (
+                    <li key={t} className="flex gap-3 text-sm">
+                      <Check className="mt-0.5 size-4 shrink-0 text-orange" />
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          </div>
+        </Container>
+      </Section>
+
+      <Section>
         <Container className="grid gap-6 md:grid-cols-2">
           <Reveal className="card p-8 sm:p-10">
             <span className="grid size-12 place-items-center rounded-xl bg-blue/10 text-blue">
@@ -85,7 +152,7 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      <Section>
+      <Section tone="light">
         <Container className="flex flex-col gap-12">
           <SectionHeading align="center" eyebrow="What drives us" title="Our values" />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
