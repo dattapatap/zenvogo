@@ -12,22 +12,21 @@ const columns = [
     links: [
       { label: "About Us", href: "/about" },
       { label: "Our Approach", href: "/approach" },
-      { label: "Academic Partners", href: "/academic-partners" },
+      { label: "Partners", href: "/partners" },
       { label: "Careers", href: "/careers" },
       { label: "FAQ", href: "/faq" },
     ],
   },
   {
-    title: "Solutions",
+    title: "Our Programs",
     links: solutions.map((s) => ({ label: s.short, href: `/solutions/${s.slug}` })),
   },
   {
-    title: "Innovation",
+    title: "Explore",
     links: [
-      { label: "AI Ventures", href: "/ai-ventures" },
-      { label: "Startup Incubation", href: "/ai-ventures#offerings" },
-      { label: "Mentorship", href: "/ai-ventures#offerings" },
-      { label: "Insights", href: "/insights" },
+      { label: "Immersion Programs", href: "/immersion-programs" },
+      { label: "Certifications", href: "/certifications" },
+      { label: "Blogs", href: "/blogs" },
     ],
   },
 ];

@@ -10,9 +10,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/about",
     "/solutions",
     "/approach",
-    "/academic-partners",
+    "/partners",
     "/ai-ventures",
-    "/insights",
+    "/immersion-programs",
+    "/certifications",
+    "/blogs",
     "/faq",
     "/careers",
     "/contact",
@@ -20,6 +22,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...pages.map((p) => ({ url: `${base}${p}` })),
     ...solutions.map((s) => ({ url: `${base}/solutions/${s.slug}` })),
-    ...insights.map((p) => ({ url: `${base}/insights/${p.slug}`, lastModified: p.date })),
+    ...insights.map((p) => ({ url: `${base}/blogs/${p.slug}`, lastModified: p.date })),
   ];
 }

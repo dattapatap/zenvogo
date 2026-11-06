@@ -11,7 +11,7 @@ import { PageHero } from "@/components/sections/PageHero";
 import { CTASection } from "@/components/sections/CTASection";
 
 export const metadata: Metadata = {
-  title: "Solutions",
+  title: "Our Programs",
   description:
     "Executive education, industry-curated learning, global education and corporate learning — designed around real industry challenges.",
 };
@@ -20,8 +20,8 @@ export default function SolutionsPage() {
   return (
     <>
       <PageHero
-        eyebrow="Our Solutions"
-        crumbs={[{ label: "Solutions" }]}
+        eyebrow="Our Programs"
+        crumbs={[{ label: "Our Programs" }]}
         title="Learning solutions that move industries forward"
         text="Four ways we help organisations, professionals and institutions grow — each one designed around real needs rather than an off-the-shelf catalogue."
       >

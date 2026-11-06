@@ -19,7 +19,7 @@ export function CTASection({
   ),
   text = "Whether you represent an industry, an institution or an emerging venture, let's explore what we can build together.",
   primary = { label: "Start a Conversation", href: "/contact" },
-  secondary = { label: "Explore Solutions", href: "/solutions" },
+  secondary = { label: "Explore Programs", href: "/solutions" },
 }: Props) {
   return (
     <section className="bg-background py-14 sm:py-[72px] lg:py-[100px]">

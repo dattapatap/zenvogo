@@ -113,7 +113,7 @@ export default function AiVenturesPage() {
         }
         text="Tell us about your idea, your team and where you need help. We'll get back to you to discuss how Zenvogo AI Ventures can support you."
         primary={{ label: "Apply as a Startup", href: "/contact?type=startup" }}
-        secondary={{ label: "Read Insights", href: "/insights" }}
+        secondary={{ label: "Read Blogs", href: "/blogs" }}
       />
     </>
   );

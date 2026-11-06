@@ -12,7 +12,7 @@ import { CTASection } from "@/components/sections/CTASection";
 import { GlobalEducationScene } from "@/components/three";
 
 export const metadata: Metadata = {
-  title: "Academic Partners",
+  title: "Partners",
   description:
     "Empanelled faculty, leading institutions and industry practitioners who design and deliver Zenvogo programmes.",
 };
@@ -21,8 +21,8 @@ export default function AcademicPartnersPage() {
   return (
     <>
       <PageHero
-        eyebrow="Academic Partners"
-        crumbs={[{ label: "Academic Partners" }]}
+        eyebrow="Partners"
+        crumbs={[{ label: "Partners" }]}
         title="Knowledge powered by global academia"
         scene={<GlobalEducationScene />}
         text="Every Zenvogo programme is designed with empanelled professors from leading universities in India and the United Kingdom, and delivered with institutions that certify the learning."

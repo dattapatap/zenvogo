@@ -123,7 +123,7 @@ export default function HomePage() {
         <Container className="flex flex-col gap-12">
           <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
             <SectionHeading
-              eyebrow="Our Solutions"
+              eyebrow="Our Programs"
               title={
                 <>
                   Learning solutions that <Accent>move industries forward.</Accent>
@@ -261,7 +261,7 @@ export default function HomePage() {
               ))}
             </ul>
             <Reveal>
-              <Button href="/academic-partners" variant="outline" arrow>
+              <Button href="/partners" variant="outline" arrow>
                 Our Academic Network
               </Button>
             </Reveal>
@@ -349,10 +349,10 @@ export default function HomePage() {
       <Section tone="light">
         <Container className="flex flex-col gap-12">
           <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-            <SectionHeading eyebrow="Insights" title="Ideas on learning, leadership and AI" />
+            <SectionHeading eyebrow="Blogs" title="Ideas on learning, leadership and AI" />
             <Reveal>
-              <Button href="/insights" variant="outline" arrow>
-                All Insights
+              <Button href="/blogs" variant="outline" arrow>
+                All Blogs
               </Button>
             </Reveal>
           </div>
@@ -360,7 +360,7 @@ export default function HomePage() {
             {insights.map((p, i) => (
               <Reveal key={p.slug} delay={i * 0.08}>
                 <Link
-                  href={`/insights/${p.slug}`}
+                  href={`/blogs/${p.slug}`}
                   className="group flex h-full card-hover flex-col card p-7"
                 >
                   <Eyebrow>{p.category}</Eyebrow>

@@ -10,17 +10,17 @@ import { PageHero } from "@/components/sections/PageHero";
 import { CTASection } from "@/components/sections/CTASection";
 
 export const metadata: Metadata = {
-  title: "Insights",
-  description: "Articles on industry-led learning, leadership development and AI ventures.",
+  title: "Blogs",
+  description: "Blogs on industry-led learning, leadership development and AI ventures.",
 };
 
-export default function InsightsPage() {
+export default function BlogsPage() {
   const [featured, ...rest] = insights;
   return (
     <>
       <PageHero
-        eyebrow="Insights"
-        crumbs={[{ label: "Insights" }]}
+        eyebrow="Blogs"
+        crumbs={[{ label: "Blogs" }]}
         title="Ideas on learning, leadership and AI"
         text="Perspectives from the Zenvogo team on designing learning that works — and building the ventures shaping the future of work."
       />
@@ -29,7 +29,7 @@ export default function InsightsPage() {
         <Container className="flex flex-col gap-6">
           <Reveal>
             <Link
-              href={`/insights/${featured.slug}`}
+              href={`/blogs/${featured.slug}`}
               className="group grid card-hover overflow-hidden card lg:grid-cols-2"
             >
               <div className="dark-section relative min-h-56 overflow-hidden bg-navy">
@@ -57,7 +57,7 @@ export default function InsightsPage() {
             {rest.map((p, i) => (
               <Reveal key={p.slug} delay={i * 0.08}>
                 <Link
-                  href={`/insights/${p.slug}`}
+                  href={`/blogs/${p.slug}`}
                   className="group flex h-full card-hover flex-col card p-8"
                 >
                   <Eyebrow>{p.category}</Eyebrow>

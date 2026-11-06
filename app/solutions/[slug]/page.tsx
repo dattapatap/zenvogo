@@ -43,7 +43,7 @@ export default async function SolutionPage(props: PageProps<"/solutions/[slug]">
     <>
       <PageHero
         eyebrow="Solution"
-        crumbs={[{ label: "Solutions", href: "/solutions" }, { label: solution.short }]}
+        crumbs={[{ label: "Our Programs", href: "/solutions" }, { label: solution.short }]}
         title={solution.title}
         text={solution.tagline}
         scene={scenes[solution.slug]}
@@ -53,7 +53,7 @@ export default async function SolutionPage(props: PageProps<"/solutions/[slug]">
             Discuss Your Learning Needs
           </Button>
           <Button href="/solutions" variant="outline-light">
-            All Solutions
+            All Programs
           </Button>
         </div>
       </PageHero>
@@ -136,7 +136,7 @@ export default async function SolutionPage(props: PageProps<"/solutions/[slug]">
 
       <Section>
         <Container>
-          <h2 className="text-[26px] font-bold">Other solutions</h2>
+          <h2 className="text-[26px] font-bold">Other programs</h2>
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             {others.map((s) => (
               <Link

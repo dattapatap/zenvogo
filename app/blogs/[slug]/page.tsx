@@ -12,7 +12,7 @@ export function generateStaticParams() {
   return insights.map((p) => ({ slug: p.slug }));
 }
 
-export async function generateMetadata(props: PageProps<"/insights/[slug]">): Promise<Metadata> {
+export async function generateMetadata(props: PageProps<"/blogs/[slug]">): Promise<Metadata> {
   const { slug } = await props.params;
   const post = getInsight(slug);
   return post
@@ -24,7 +24,7 @@ export async function generateMetadata(props: PageProps<"/insights/[slug]">): Pr
     : {};
 }
 
-export default async function InsightPage(props: PageProps<"/insights/[slug]">) {
+export default async function InsightPage(props: PageProps<"/blogs/[slug]">) {
   const { slug } = await props.params;
   const post = getInsight(slug);
   if (!post) notFound();
@@ -35,7 +35,7 @@ export default async function InsightPage(props: PageProps<"/insights/[slug]">) 
     <>
       <PageHero
         eyebrow={post.category}
-        crumbs={[{ label: "Insights", href: "/insights" }, { label: post.category }]}
+        crumbs={[{ label: "Blogs", href: "/blogs" }, { label: post.category }]}
         title={post.title}
       >
         <p className="text-sm text-white/60">
@@ -65,14 +65,14 @@ export default async function InsightPage(props: PageProps<"/insights/[slug]">) 
 
           <div className="mt-16 border-t border-border pt-8">
             <Link
-              href="/insights"
+              href="/blogs"
               className="inline-flex items-center gap-2 text-sm font-semibold text-blue hover:text-navy"
             >
-              <ArrowLeft className="size-4" /> All insights
+              <ArrowLeft className="size-4" /> All blogs
             </Link>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {more.map((p) => (
-                <Link key={p.slug} href={`/insights/${p.slug}`} className="card-hover card p-5">
+                <Link key={p.slug} href={`/blogs/${p.slug}`} className="card-hover card p-5">
                   <span className="text-xs font-semibold text-blue">{p.category}</span>
                   <p className="mt-1 font-semibold text-navy">{p.title}</p>
                 </Link>

@@ -63,7 +63,7 @@ export function Header() {
                     aria-expanded={item.children ? dropdown === item.href : undefined}
                     onFocus={() => setDropdown(item.children ? item.href : null)}
                     className={cn(
-                      "relative flex items-center gap-1 px-3 py-7 text-sm font-semibold text-navy/80 transition-colors hover:text-blue",
+                      "relative flex items-center gap-1 px-3 py-7 text-[15px] font-semibold text-navy/80 transition-colors hover:text-blue",
                       isActive(item.href) && "text-blue",
                     )}
                   >
@@ -113,7 +113,7 @@ export function Header() {
                             href={item.href}
                             className="col-span-2 mt-1 flex items-center justify-between rounded-lg bg-section px-3 py-2.5 text-sm font-semibold text-blue"
                           >
-                            View all solutions <ArrowRight className="size-4" />
+                            View all programs <ArrowRight className="size-4" />
                           </Link>
                         </div>
                       </motion.div>

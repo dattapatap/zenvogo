@@ -45,9 +45,8 @@ export type NavItem = {
 };
 
 export const mainNav: NavItem[] = [
-  { label: "About", href: "/about" },
   {
-    label: "Solutions",
+    label: "Our Programs",
     href: "/solutions",
     children: [
       {
@@ -72,10 +71,12 @@ export const mainNav: NavItem[] = [
       },
     ],
   },
+  { label: "Immersion Programs", href: "/immersion-programs" },
+  { label: "Certifications", href: "/certifications" },
+  { label: "About Us", href: "/about-us" },
   { label: "Our Approach", href: "/approach" },
-  { label: "Academic Partners", href: "/academic-partners" },
-  { label: "AI Ventures", href: "/ai-ventures" },
-  { label: "Insights", href: "/insights" },
+  { label: "Partners", href: "/partners" },
+  { label: "Contact Us", href: "/contact" },
 ];
 
 export const primaryCta = { label: "Let's Talk", href: "/contact" };
