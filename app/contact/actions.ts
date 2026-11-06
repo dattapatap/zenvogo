@@ -20,6 +20,10 @@ export async function sendEnquiry(_prev: ContactState, formData: FormData): Prom
     phone: get("phone"),
     type: get("type") as EnquiryType,
     message: get("message", 4000),
+    /** Programme / destination the enquiry is about (set by catalogue pages). */
+    interest: get("interest"),
+    /** Free-text role from catalogue enquiry forms ("Working professional", "University"…). */
+    role: get("role"),
   };
 
   const errors: ContactState["errors"] = {};

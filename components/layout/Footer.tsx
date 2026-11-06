@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { siteConfig } from "@/config/site";
-import { solutions } from "@/lib/data/solutions";
+import { categories } from "@/lib/data/programmes";
 import { Container } from "@/components/ui/Container";
 import { SocialLinks } from "@/components/ui/SocialLinks";
 import { Logo } from "./Logo";
@@ -10,7 +10,7 @@ const columns = [
   {
     title: "Company",
     links: [
-      { label: "About Us", href: "/about" },
+      { label: "About Us", href: "/about-us" },
       { label: "Our Approach", href: "/approach" },
       { label: "Partners", href: "/partners" },
       { label: "Careers", href: "/careers" },
@@ -19,7 +19,7 @@ const columns = [
   },
   {
     title: "Our Programs",
-    links: solutions.map((s) => ({ label: s.short, href: `/solutions/${s.slug}` })),
+    links: categories.map((c) => ({ label: c.name, href: `/programs?category=${c.slug}` })),
   },
   {
     title: "Explore",
@@ -36,13 +36,16 @@ export function Footer() {
   return (
     <footer className="bg-navy text-[#d3dded]">
       <Container className="grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1.2fr]">
-        <div className="flex flex-col gap-5 sm:col-span-2 lg:col-span-1">
-          <Logo variant="light" />
-          <p className="max-w-xs text-sm leading-relaxed text-[#d3dded]/80">
-            Bridging industry, academia and innovation to create meaningful learning and growth
-            opportunities.
+        <div className="flex flex-col gap-4 sm:col-span-2 lg:col-span-1">
+          <Logo variant="light" className="w-[195px] lg:w-[225px]" />
+          <p className="max-w-sm text-sm leading-relaxed text-[#d3dded]/85">
+            Bridging industry, academia, and innovation to create impactful learning programmes,
+            executive leadership, and scalable growth opportunities.
           </p>
-          <p className="text-xs text-[#d3dded]/60">A part of {siteConfig.parent}</p>
+          <p className="max-w-sm text-xs leading-relaxed text-[#d3dded]/60">
+            Co-creating real-world curricula with premier academic institutions and incubating
+            next-generation AI ventures for global impact.
+          </p>
         </div>
 
         {columns.map((col) => (
@@ -89,20 +92,12 @@ export function Footer() {
             </li>
           </ul>
           <SocialLinks className="mt-5" />
-          <Link
-            href="/contact?type=institution"
-            className="mt-6 inline-flex h-10 items-center rounded-lg bg-orange px-4 text-sm font-semibold text-white hover:bg-[#ec5a0c]"
-          >
-            Partner With Us
-          </Link>
         </div>
       </Container>
 
       <div className="border-t border-white/10">
         <Container className="flex flex-col items-center justify-between gap-3 py-6 text-xs text-[#d3dded]/60 sm:flex-row">
-          <p>
-            © {siteConfig.name}. All rights reserved. · {siteConfig.parent}
-          </p>
+          <p>© {siteConfig.name}. All rights reserved.</p>
           <p>{siteConfig.tagline}</p>
         </Container>
       </div>

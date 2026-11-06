@@ -30,3 +30,7 @@ export const AIVentureScene = dynamic(() => import("./AIVentureScene"), {
 });
 export const WaveField = dynamic(() => import("./WaveField"), { ssr: false, loading: Glow });
 export const Orb = dynamic(() => import("./Orb"), { ssr: false, loading: Glow });
+export const MasteryScene = dynamic(() => import("./MasteryScene"), {
+  ssr: false,
+  loading: Glow,
+});

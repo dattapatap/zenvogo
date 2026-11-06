@@ -1,3 +1,5 @@
+import type { MegaMenuKey } from "@/lib/data/catalog";
+
 /**
  * Global site configuration.
  *
@@ -41,38 +43,14 @@ export const siteConfig = {
 export type NavItem = {
   label: string;
   href: string;
-  children?: { label: string; href: string; text: string }[];
+  /** Opens the matching mega menu from lib/data/catalog.ts. */
+  mega?: MegaMenuKey;
 };
 
 export const mainNav: NavItem[] = [
-  {
-    label: "Our Programs",
-    href: "/solutions",
-    children: [
-      {
-        label: "Executive & Leadership Development",
-        href: "/solutions/executive-leadership",
-        text: "Programmes for senior management and future leaders.",
-      },
-      {
-        label: "Industry-Curated Learning",
-        href: "/solutions/industry-curated-learning",
-        text: "Curricula designed around your sector's real challenges.",
-      },
-      {
-        label: "Global Education & Exchange",
-        href: "/solutions/global-education-exchange",
-        text: "International exposure, exchanges and immersions.",
-      },
-      {
-        label: "Corporate Learning",
-        href: "/solutions/corporate-learning",
-        text: "Enterprise-wide capability building, end to end.",
-      },
-    ],
-  },
-  { label: "Immersion Programs", href: "/immersion-programs" },
-  { label: "Certifications", href: "/certifications" },
+  { label: "Our Programs", href: "/programs", mega: "programs" },
+  { label: "Immersion Programs", href: "/immersion-programs", mega: "immersion" },
+  { label: "Certifications", href: "/certifications", mega: "certifications" },
   { label: "About Us", href: "/about-us" },
   { label: "Our Approach", href: "/approach" },
   { label: "Partners", href: "/partners" },

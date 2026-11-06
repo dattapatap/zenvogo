@@ -66,7 +66,7 @@ export default function HomePage() {
               text="Most learning platforms sell what institutions already offer. Zenvogo starts with the industry — its people, its challenges, its future — and builds programmes around them with leading academic experts and institutions."
             />
             <Reveal className="flex flex-wrap gap-3">
-              <Button href="/about" variant="secondary" arrow>
+              <Button href="/about-us" variant="secondary" arrow>
                 About Us
               </Button>
               <Button href="/approach" variant="outline">

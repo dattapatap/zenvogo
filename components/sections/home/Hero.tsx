@@ -118,7 +118,7 @@ export function Hero() {
           </p>
 
           <div data-hero="fade" className="js-hide flex flex-wrap gap-3">
-            <Button href="/solutions" arrow>
+            <Button href="/programs" arrow>
               Explore Our Programs
             </Button>
             <Button href="/contact?type=institution" variant="outline">

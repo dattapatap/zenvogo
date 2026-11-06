@@ -67,6 +67,25 @@
     border-color: var(--color-border);
   }
 
+  /* Pointer cursor on everything clickable (Tailwind v4 no longer sets it on buttons). */
+  a[href],
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [role="tab"],
+  summary,
+  label[for],
+  select,
+  input[type="checkbox"],
+  input[type="radio"],
+  input[type="submit"],
+  input[type="button"] {
+    cursor: pointer;
+  }
+  :disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
@@ -101,6 +120,15 @@
 }
 
 /* ───────────────────────── Utilities ───────────────────────── */
+/* Scrollable without a visible scrollbar. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @utility card {
   background: #fff;
   border: 1px solid #e5eaf1;
@@ -154,5 +182,16 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Slow drift for the CTA background waves. */
+@keyframes cta-drift {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-40px);
   }
 }

@@ -8,14 +8,16 @@ import { useEffect, useState } from "react";
 import { mainNav, primaryCta, siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/Container";
+import { megaMenus, type MegaMenuKey } from "@/lib/data/catalog";
 import { Logo } from "./Logo";
+import { MegaMenu } from "./MegaMenu";
 
 export function Header() {
   const pathname = usePathname();
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [dropdown, setDropdown] = useState<string | null>(null);
+  const [dropdown, setDropdown] = useState<MegaMenuKey | null>(null);
 
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 8));
 
@@ -34,6 +36,8 @@ export function Header() {
     };
   }, [mobileOpen]);
 
+  const activeMenu = dropdown ? megaMenus[dropdown] : null;
+
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
@@ -49,30 +53,31 @@ export function Header() {
         </Link>
 
         <div className="flex items-center gap-4">
-          <nav aria-label="Main" className="hidden xl:block" onMouseLeave={() => setDropdown(null)}>
+          <nav
+            aria-label="Main"
+            className="hidden xl:block"
+            onMouseLeave={() => setDropdown(null)}
+            onKeyDown={(e) => e.key === "Escape" && setDropdown(null)}
+          >
             <ul className="flex items-center gap-1">
               {mainNav.map((item) => (
-                <li
-                  key={item.href}
-                  className="relative"
-                  onMouseEnter={() => setDropdown(item.children ? item.href : null)}
-                >
+                <li key={item.href} onMouseEnter={() => setDropdown(item.mega ?? null)}>
                   <Link
                     href={item.href}
-                    aria-haspopup={item.children ? "true" : undefined}
-                    aria-expanded={item.children ? dropdown === item.href : undefined}
-                    onFocus={() => setDropdown(item.children ? item.href : null)}
+                    aria-haspopup={item.mega ? "true" : undefined}
+                    aria-expanded={item.mega ? dropdown === item.mega : undefined}
+                    onFocus={() => setDropdown(item.mega ?? null)}
                     className={cn(
                       "relative flex items-center gap-1 px-3 py-7 text-[15px] font-semibold text-navy/80 transition-colors hover:text-blue",
-                      isActive(item.href) && "text-blue",
+                      (isActive(item.href) || (item.mega && dropdown === item.mega)) && "text-blue",
                     )}
                   >
                     {item.label}
-                    {item.children && (
+                    {item.mega && (
                       <ChevronDown
                         className={cn(
                           "size-3.5 transition-transform",
-                          dropdown === item.href && "rotate-180",
+                          dropdown === item.mega && "rotate-180",
                         )}
                       />
                     )}
@@ -83,45 +88,27 @@ export function Header() {
                       />
                     )}
                   </Link>
-
-                  <AnimatePresence>
-                    {item.children && dropdown === item.href && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 8 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute top-full left-1/2 w-[540px] -translate-x-1/2"
-                      >
-                        <span className="absolute -top-1.5 left-1/2 size-3 -translate-x-1/2 rotate-45 border-t border-l border-border bg-white" />
-                        <div className="grid grid-cols-2 gap-1 rounded-2xl border border-border bg-white/95 p-3 shadow-[0_24px_60px_-20px_rgb(8_29_72/0.35)] backdrop-blur-xl">
-                          {item.children.map((c) => (
-                            <Link
-                              key={c.href}
-                              href={c.href}
-                              className="rounded-lg p-3 transition-colors hover:bg-section"
-                            >
-                              <span className="block text-sm font-semibold text-navy">
-                                {c.label}
-                              </span>
-                              <span className="mt-0.5 block text-[13px] leading-snug text-muted-foreground">
-                                {c.text}
-                              </span>
-                            </Link>
-                          ))}
-                          <Link
-                            href={item.href}
-                            className="col-span-2 mt-1 flex items-center justify-between rounded-lg bg-section px-3 py-2.5 text-sm font-semibold text-blue"
-                          >
-                            View all programs <ArrowRight className="size-4" />
-                          </Link>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                 </li>
               ))}
             </ul>
+
+            {/* Full-width mega menu, positioned against the sticky header */}
+            <AnimatePresence>
+              {activeMenu && (
+                <motion.div
+                  key={dropdown}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute inset-x-0 top-full -mt-3 pt-4"
+                >
+                  <Container>
+                    <MegaMenu menu={activeMenu} />
+                  </Container>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </nav>
 
           <div className="flex items-center gap-3">
@@ -184,15 +171,15 @@ export function Header() {
                       {item.label}
                       <ArrowRight className="size-4 text-muted-foreground" />
                     </Link>
-                    {"children" in item && item.children && (
+                    {"mega" in item && item.mega && (
                       <ul className="mb-4 flex flex-col gap-1 border-l-2 border-orange/50 pl-4">
-                        {item.children.map((c) => (
+                        {megaMenus[item.mega].items.map((c) => (
                           <li key={c.href}>
                             <Link
                               href={c.href}
                               className="block py-1.5 text-sm text-muted-foreground"
                             >
-                              {c.label}
+                              {c.title}
                             </Link>
                           </li>
                         ))}
