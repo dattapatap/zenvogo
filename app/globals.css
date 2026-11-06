@@ -1,26 +1,158 @@
 @import "tailwindcss";
 
+/* ───────────────────────── Brand tokens ─────────────────────────
+   Navy builds trust, blue drives interaction, orange is the accent.
+   Usage guide: ~55% white/light, 25% navy, 12% blue, 6% orange, 2% gold. */
 :root {
+  --navy: #081d48;
+  --navy-2: #0c2a63;
+  --blue: #0866d9;
+  --orange: #ff6818;
+  --gold: #ffb21a;
+
   --background: #ffffff;
-  --foreground: #171717;
+  --section: #f7f9fc;
+  --section-2: #eef3fa;
+  --foreground: #25324a;
+  --muted-foreground: #64748b;
+  --border: #dce4ef;
 }
 
 @theme inline {
+  --color-navy: var(--navy);
+  --color-navy-2: var(--navy-2);
+  --color-blue: var(--blue);
+  --color-orange: var(--orange);
+  --color-gold: var(--gold);
   --color-background: var(--background);
+  --color-section: var(--section);
+  --color-section-2: var(--section-2);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-manrope);
+
+  --shadow-card: 0 8px 30px rgb(8 29 72 / 0.06);
+  --shadow-card-hover: 0 18px 44px rgb(8 29 72 / 0.12);
+
+  --animate-marquee: marquee 45s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ───────────────────────── Base ───────────────────────── */
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-inter), system-ui, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-manrope), var(--font-inter), sans-serif;
+    color: var(--navy);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  /* Headings inside dark sections */
+  .dark-section :is(h1, h2, h3, h4) {
+    color: #fff;
+  }
+
+  ::selection {
+    background: rgb(8 102 217 / 0.2);
+  }
+}
+
+/* ───────────────────────── Utilities ───────────────────────── */
+@utility card {
+  background: #fff;
+  border: 1px solid #e5eaf1;
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  transition:
+    transform 250ms ease,
+    box-shadow 250ms ease,
+    border-color 250ms ease;
+}
+
+@utility card-hover {
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+    border-color: #c9d6e8;
+  }
+}
+
+/* Translucent panel for use on navy sections */
+@utility panel {
+  background: rgb(255 255 255 / 0.06);
+  border: 1px solid rgb(255 255 255 / 0.12);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+}
+
+@utility dot-grid {
+  background-image: radial-gradient(rgb(8 29 72 / 0.09) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+@utility dot-grid-light {
+  background-image: radial-gradient(rgb(255 255 255 / 0.08) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* ─── Pre-animation states (only when JS runs, so content never stays hidden) ─── */
+.js .js-hide {
+  visibility: hidden;
+}
+.js [data-hero="word"] {
+  transform: translateY(110%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
