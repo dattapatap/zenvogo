@@ -30,7 +30,7 @@ export function PageHero({
   crumbs,
   children,
   scene,
-  crystal = true,
+  crystal = false,
   animated = true,
   className,
 }: Props) {

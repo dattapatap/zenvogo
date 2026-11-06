@@ -91,7 +91,7 @@ function FormFields({
         />
         <Field label="Organisation" name="organisation" autoComplete="organization" />
         <Field
-          label="Work email"
+          label="Email"
           name="email"
           type="email"
           autoComplete="email"

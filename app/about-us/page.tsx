@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Check, Eye, Flag, X } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { comparison, teamBackgrounds, values } from "@/lib/data/content";
@@ -28,32 +29,113 @@ export default function AboutPage() {
       />
 
       <Section>
-        <Container className="grid gap-12 lg:grid-cols-2">
-          <SectionHeading
-            eyebrow="Our story"
-            title={
-              <>
-                Built by people who know <Accent>learning from the inside.</Accent>
-              </>
-            }
-          />
-          <Reveal className="flex flex-col gap-5 text-lg text-muted-foreground">
-            <p>
-              Zenvogo was started by a team of {siteConfig.founders}, joined by professionals who
-              have helped build some of India&apos;s best-known learning companies. We&apos;ve seen
-              first-hand how learning is sold — and where it falls short.
-            </p>
-            <p>
-              Most platforms resell what institutions already offer. Very few design programmes
-              exclusively around what an industry needs. So we built a company that does exactly
-              that: research the challenge, design the curriculum with expert faculty, and deliver
-              it through leading institutions.
-            </p>
-            <p>
-              Alongside learning, we help AI startups incubate, grow and raise funding — because the
-              future of work will be shaped by both.
-            </p>
-          </Reveal>
+        <Container className="flex flex-col gap-12 sm:gap-14">
+          <div className="grid gap-12 lg:grid-cols-2">
+            <SectionHeading
+              eyebrow="Our story"
+              title={
+                <>
+                  Built by people who know <Accent>learning from the inside.</Accent>
+                </>
+              }
+            />
+            <Reveal className="flex flex-col gap-5 text-lg text-muted-foreground">
+              <p>
+                Zenvogo was started by a team of {siteConfig.founders}, joined by professionals who
+                have helped build some of India&apos;s best-known learning companies. We&apos;ve
+                seen first-hand how learning is sold — and where it falls short.
+              </p>
+              <p>
+                Most platforms resell what institutions already offer. Very few design programmes
+                exclusively around what an industry needs. So we built a company that does exactly
+                that: research the challenge, design the curriculum with expert faculty, and deliver
+                it through leading institutions.
+              </p>
+              <p>
+                Alongside learning, we help AI startups incubate, grow and raise funding — because
+                the future of work will be shaped by both.
+              </p>
+            </Reveal>
+          </div>
+
+          {/* Three featured photos from the programme and immersion documents */}
+          <div className="grid gap-6 sm:grid-cols-3">
+            <Reveal
+              delay={0.06}
+              className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden bg-section">
+                <Image
+                  src="/images/programs/coming-soon-classroom.webp"
+                  alt="Executive education and academic learning session"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="flex flex-1 flex-col justify-between p-5">
+                <div>
+                  <h3 className="font-display text-base font-bold text-navy">
+                    Executive Education
+                  </h3>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    Rigorous executive development programmes designed around the real challenges
+                    industries face.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal
+              delay={0.12}
+              className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden bg-section">
+                <Image
+                  src="/images/immersion/europe.webp"
+                  alt="Global university campus immersion and international perspectives"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="flex flex-1 flex-col justify-between p-5">
+                <div>
+                  <h3 className="font-display text-base font-bold text-navy">Global Immersions</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    Transformative international learning journeys across premier universities and
+                    global innovation hubs.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal
+              delay={0.18}
+              className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden bg-section">
+                <Image
+                  src="/images/immersion/hero-cohort.webp"
+                  alt="Corporate interactions and real-world business exposure"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="flex flex-1 flex-col justify-between p-5">
+                <div>
+                  <h3 className="font-display text-base font-bold text-navy">
+                    Industry &amp; Corporate Access
+                  </h3>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    Direct engagements with global companies, corporate headquarters and executive
+                    mentors.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </Container>
       </Section>
 
@@ -83,8 +165,8 @@ export default function AboutPage() {
           <div className="relative">
             <Reveal>
               <ParallaxImage
-                src="/images/3d/book-staircase.webp"
-                alt="Books arranged as a staircase leading up to a graduation cap"
+                src="/images/immersion/hero-students.webp"
+                alt="Students walking together across an international university campus lawn"
                 className="aspect-[16/10] rounded-2xl bg-white shadow-[var(--shadow-card)]"
               />
             </Reveal>
@@ -185,23 +267,6 @@ export default function AboutPage() {
                 {t}
               </div>
             ))}
-          </Reveal>
-        </Container>
-      </Section>
-
-      <Section tone="light">
-        <Container className="text-center">
-          <Reveal className="mx-auto flex max-w-2xl flex-col items-center gap-4">
-            <p className="text-sm font-semibold tracking-[0.14em] text-blue uppercase">
-              A part of {siteConfig.parent}
-            </p>
-            <p className="text-muted-foreground">
-              Our parent company&apos;s travel expertise powers the international exchanges,
-              immersions and study tours in our Global Education &amp; Exchange programmes.
-            </p>
-            <Button href="/solutions/global-education-exchange" variant="outline" arrow>
-              Global Education &amp; Exchange
-            </Button>
           </Reveal>
         </Container>
       </Section>

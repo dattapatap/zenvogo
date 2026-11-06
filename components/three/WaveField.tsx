@@ -1,6 +1,5 @@
 "use client";
 
-import { Float } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
@@ -82,52 +81,16 @@ function Wave() {
   );
 }
 
-function Crystal() {
-  const ref = useRef<THREE.Group>(null);
-  const scroll = useScrollProgress();
-  useFrame(({ pointer }, d) => {
-    if (!ref.current) return;
-    ref.current.rotation.y += d * 0.25;
-    ref.current.position.y = THREE.MathUtils.damp(
-      ref.current.position.y,
-      0.9 - scroll.current.t * 1.5,
-      4,
-      d,
-    );
-    ref.current.rotation.x = THREE.MathUtils.damp(ref.current.rotation.x, pointer.y * 0.4, 3, d);
-  });
-  return (
-    <Float speed={1.5} floatIntensity={1.2}>
-      <group ref={ref} position={[3.6, 0.9, 0]}>
-        <mesh>
-          <icosahedronGeometry args={[0.9, 0]} />
-          <meshStandardMaterial
-            color="#0866d9"
-            emissive="#06306e"
-            emissiveIntensity={0.5}
-            metalness={0.5}
-            roughness={0.2}
-            flatShading
-          />
-        </mesh>
-        <mesh scale={1.35}>
-          <icosahedronGeometry args={[0.9, 1]} />
-          <meshBasicMaterial color="#ff6818" wireframe transparent opacity={0.35} />
-        </mesh>
-      </group>
-    </Float>
-  );
-}
-
 /** Animated particle wave used behind inner-page heroes. */
-export default function WaveField({ crystal = true }: { crystal?: boolean }) {
+export default function WaveField({ crystal = false }: { crystal?: boolean }) {
+  // crystal is permanently disabled across all pages
+  void crystal;
   return (
     <SceneShell camera={{ position: [0, 1.2, 7], fov: 50 }}>
       <ambientLight intensity={0.5} />
       <pointLight position={[4, 4, 4]} intensity={50} color="#8fc1ff" />
       <pointLight position={[-4, -2, 3]} intensity={30} color="#ff8a4c" />
       <Wave />
-      {crystal && <Crystal />}
     </SceneShell>
   );
 }

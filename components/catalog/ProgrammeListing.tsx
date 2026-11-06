@@ -1,24 +1,16 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { SlidersHorizontal, X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import {
-  categories,
-  institutions,
-  kindLabel,
-  programmesOf,
-  type ProgrammeKind,
-} from "@/lib/data/programmes";
+import { categories, kindLabel, programmesOf, type ProgrammeKind } from "@/lib/data/programmes";
+import { icons } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
-const PAGE = 9;
+const PAGE = 12;
 
 /**
- * Filterable grid of programmes / certifications. The selected category is kept in
- * the URL (?category=…) so mega-menu links and shared links open pre-filtered.
- * Cards are rendered on the server and passed in, keyed by slug.
+ * Clean full-width grid of programmes / certifications with top badge/pill category selection.
  */
 export function ProgrammeListing({
   kind,
@@ -31,19 +23,13 @@ export function ProgrammeListing({
   const router = useRouter();
   const pathname = usePathname();
   const category = params.get("category") ?? "all";
-  const [institution, setInstitution] = useState("all");
   const [limit, setLimit] = useState(PAGE);
 
   const all = programmesOf(kind);
   const label = kindLabel[kind];
-  const usedInstitutions = institutions.filter((i) => all.some((p) => p.institution === i.slug));
   const visibleCategories = categories.filter((c) => all.some((p) => p.category === c.slug));
 
-  const filtered = all.filter(
-    (p) =>
-      (category === "all" || p.category === category) &&
-      (institution === "all" || p.institution === institution),
-  );
+  const filtered = all.filter((p) => category === "all" || p.category === category);
   const shown = filtered.slice(0, limit);
 
   const setCategory = (slug: string) => {
@@ -55,163 +41,112 @@ export function ProgrammeListing({
     router.replace(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
   };
 
-  const activeName = visibleCategories.find((c) => c.slug === category)?.name;
-
   return (
-    <div className="grid gap-8 lg:grid-cols-[260px_1fr]">
-      {/* Filters — sidebar on desktop, chips on mobile */}
-      <aside className="lg:sticky lg:top-28 lg:self-start">
-        <p className="mb-3 hidden items-center gap-2 text-sm font-semibold text-navy lg:flex">
-          <SlidersHorizontal className="size-4" /> Filter
-        </p>
-        <div className="flex flex-col gap-6 lg:rounded-2xl lg:border lg:border-border lg:bg-white lg:p-4">
-          <FilterGroup title="Category">
-            <FilterOption
-              active={category === "all"}
-              onClick={() => setCategory("all")}
-              count={all.length}
-            >
-              All {label.plural.toLowerCase()}
-            </FilterOption>
-            {visibleCategories.map((c) => (
-              <FilterOption
-                key={c.slug}
-                active={category === c.slug}
-                onClick={() => setCategory(c.slug)}
-                count={all.filter((p) => p.category === c.slug).length}
-              >
-                {c.name}
-              </FilterOption>
-            ))}
-          </FilterGroup>
-          {usedInstitutions.length > 0 && (
-            <FilterGroup title="Institution">
-              <FilterOption active={institution === "all"} onClick={() => setInstitution("all")}>
-                All institutions
-              </FilterOption>
-              {usedInstitutions.map((i) => (
-                <FilterOption
-                  key={i.slug}
-                  active={institution === i.slug}
-                  onClick={() => {
-                    setLimit(PAGE);
-                    setInstitution(i.slug);
-                  }}
-                  count={all.filter((p) => p.institution === i.slug).length}
-                >
-                  {i.name}
-                </FilterOption>
-              ))}
-            </FilterGroup>
-          )}
-        </div>
-      </aside>
-
-      <div className="flex min-w-0 flex-col gap-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-muted-foreground">
-            Showing <span className="font-semibold text-navy">{filtered.length}</span>{" "}
-            {filtered.length === 1 ? label.singular.toLowerCase() : label.plural.toLowerCase()}
-            {activeName && (
-              <>
-                {" "}
-                in <span className="font-semibold text-navy">{activeName}</span>
-              </>
+    <div className="flex flex-col gap-8">
+      {/* ── Category Badges / Pill Selection Bar ── */}
+      <div className="flex flex-col gap-3">
+        <div className="no-scrollbar flex flex-wrap items-center gap-2 sm:gap-2.5">
+          <button
+            type="button"
+            onClick={() => setCategory("all")}
+            aria-pressed={category === "all"}
+            className={cn(
+              "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200",
+              category === "all"
+                ? "bg-navy text-white shadow-sm ring-2 ring-navy/20"
+                : "border border-border bg-white text-navy/80 hover:border-blue/40 hover:bg-blue/5 hover:text-blue",
             )}
-          </p>
-          {(category !== "all" || institution !== "all") && (
-            <button
-              type="button"
-              onClick={() => {
-                setInstitution("all");
-                setCategory("all");
-              }}
-              className="inline-flex items-center gap-1 text-sm font-semibold text-orange"
+          >
+            <span>All {label.plural}</span>
+            <span
+              className={cn(
+                "grid h-5 min-w-5 place-items-center rounded-full px-1.5 text-[11px] font-semibold",
+                category === "all" ? "bg-white/20 text-white" : "bg-section text-muted-foreground",
+              )}
             >
-              <X className="size-4" /> Clear filters
-            </button>
-          )}
+              {all.length}
+            </span>
+          </button>
+
+          {visibleCategories.map((c) => {
+            const active = category === c.slug;
+            const Icon = icons[c.icon];
+            const count = all.filter((p) => p.category === c.slug).length;
+            return (
+              <button
+                key={c.slug}
+                type="button"
+                onClick={() => setCategory(c.slug)}
+                aria-pressed={active}
+                className={cn(
+                  "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-200",
+                  active
+                    ? "bg-navy text-white shadow-sm ring-2 ring-navy/20"
+                    : "border border-border bg-white text-navy/80 hover:border-blue/40 hover:bg-blue/5 hover:text-blue",
+                )}
+              >
+                {Icon && (
+                  <Icon
+                    className={cn("size-3.5", active ? "text-orange" : "text-muted-foreground")}
+                  />
+                )}
+                <span>{c.name}</span>
+                <span
+                  className={cn(
+                    "grid h-5 min-w-5 place-items-center rounded-full px-1.5 text-[11px] font-semibold",
+                    active ? "bg-white/20 text-white" : "bg-section text-muted-foreground",
+                  )}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
-        <motion.div layout className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-          <AnimatePresence mode="popLayout">
-            {shown.map((p) => (
-              <motion.div
-                key={p.slug}
-                layout
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.3 }}
-              >
-                {cards[p.slug]}
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        {/* Count summary */}
+        <p className="text-xs text-muted-foreground">
+          Showing <span className="font-semibold text-navy">{filtered.length}</span>{" "}
+          {filtered.length === 1 ? label.singular.toLowerCase() : label.plural.toLowerCase()}
+        </p>
+      </div>
 
-        {filtered.length === 0 && (
-          <p className="rounded-2xl border border-dashed border-border p-10 text-center text-muted-foreground">
-            No {label.plural.toLowerCase()} match these filters yet.
-          </p>
-        )}
+      {/* ── Cards Grid ── */}
+      <motion.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <AnimatePresence mode="popLayout">
+          {shown.map((p) => (
+            <motion.div
+              key={p.slug}
+              layout
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.25 }}
+            >
+              {cards[p.slug]}
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
 
-        {filtered.length > limit && (
+      {filtered.length === 0 && (
+        <div className="rounded-2xl border border-dashed border-border bg-white/60 p-12 text-center text-muted-foreground">
+          <p className="text-base font-semibold text-navy">No {label.plural.toLowerCase()} found</p>
+          <p className="mt-1 text-sm">Please select another category above.</p>
+        </div>
+      )}
+
+      {filtered.length > limit && (
+        <div className="flex justify-center pt-4">
           <button
             type="button"
             onClick={() => setLimit((l) => l + PAGE)}
-            className="mx-auto inline-flex h-11 items-center rounded-lg border border-border px-6 text-sm font-semibold text-navy transition-colors hover:border-blue hover:text-blue"
+            className="inline-flex h-11 items-center rounded-xl border border-border bg-white px-7 text-sm font-semibold text-navy shadow-sm transition-all hover:border-blue hover:text-blue hover:shadow-md"
           >
             View more ({filtered.length - limit})
           </button>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function FilterGroup({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <p className="mb-2 text-xs font-semibold tracking-wider text-muted-foreground uppercase lg:px-2">
-        {title}
-      </p>
-      <div className="-mx-4 no-scrollbar flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-col lg:gap-0.5 lg:overflow-visible lg:px-0">
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function FilterOption({
-  active,
-  onClick,
-  count,
-  children,
-}: {
-  active: boolean;
-  onClick: () => void;
-  count?: number;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={active}
-      className={cn(
-        "flex shrink-0 items-center justify-between gap-3 rounded-full border px-4 py-2 text-left text-sm whitespace-nowrap transition-colors lg:rounded-lg lg:border-0 lg:px-3 lg:whitespace-normal",
-        active
-          ? "border-orange bg-orange/10 font-semibold text-orange"
-          : "border-border bg-white text-navy/80 hover:bg-section hover:text-navy",
+        </div>
       )}
-    >
-      {children}
-      {count !== undefined && (
-        <span className={cn("text-xs", active ? "text-orange" : "text-muted-foreground")}>
-          {count}
-        </span>
-      )}
-    </button>
+    </div>
   );
 }

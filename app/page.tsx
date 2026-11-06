@@ -73,13 +73,13 @@ export default function HomePage() {
       <IndustryShowcase />
 
       {/* 08 · AI Ventures */}
-      <Section tone="navy" className="overflow-hidden">
+      <Section tone="navy" className="overflow-hidden py-10 sm:py-14 lg:py-18">
         <div aria-hidden className="absolute inset-0 dot-grid-light" />
         <div
           aria-hidden
-          className="absolute top-1/2 right-0 size-[34rem] -translate-y-1/2 rounded-full bg-blue/20 blur-[140px]"
+          className="absolute top-1/2 right-0 size-[30rem] -translate-y-1/2 rounded-full bg-blue/20 blur-[130px]"
         />
-        <Container className="relative grid items-center gap-10 lg:grid-cols-2">
+        <Container className="relative grid items-center gap-8 lg:grid-cols-[1fr_1.1fr] lg:gap-10">
           <div className="flex flex-col gap-6">
             <SectionHeading
               tone="dark"
@@ -109,7 +109,7 @@ export default function HomePage() {
               </Button>
             </Reveal>
           </div>
-          <div className="relative -mx-5 h-80 sm:h-[30rem] lg:mx-0 lg:h-[34rem]">
+          <div className="relative flex h-72 items-center justify-center sm:h-88 lg:h-[26rem]">
             <AIVentureScene />
           </div>
         </Container>

@@ -10,14 +10,14 @@ import {
 } from "@/lib/data/programmes";
 import { icons } from "@/lib/icons";
 
-export function InstitutionMark({ slug, size = 40 }: { slug?: string; size?: number }) {
+export function InstitutionMark({ slug, size = 36 }: { slug?: string; size?: number }) {
   const inst = getInstitution(slug);
   const style = { width: size, height: size };
   if (inst?.logo) {
     return (
       <span
         style={style}
-        className="relative grid shrink-0 place-items-center overflow-hidden rounded-lg border border-border bg-white p-1"
+        className="relative grid shrink-0 place-items-center overflow-hidden rounded-lg border border-border bg-white p-1 shadow-xs"
       >
         <Image
           src={inst.logo}
@@ -32,14 +32,14 @@ export function InstitutionMark({ slug, size = 40 }: { slug?: string; size?: num
   return (
     <span
       style={style}
-      className="grid shrink-0 place-items-center rounded-lg bg-navy text-[10px] font-bold tracking-wide text-white"
+      className="grid shrink-0 place-items-center rounded-lg bg-navy text-[10px] font-bold tracking-wide text-white shadow-xs"
     >
       {inst?.monogram ?? "ZV"}
     </span>
   );
 }
 
-/** Listing card for a programme or certification. */
+/** Refined listing card for programmes and certifications. */
 export function ProgrammeCard({ programme: p }: { programme: Programme }) {
   const cat = getCategory(p.category)!;
   const inst = getInstitution(p.institution);
@@ -47,10 +47,11 @@ export function ProgrammeCard({ programme: p }: { programme: Programme }) {
   const CatIcon = icons[cat.icon];
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all duration-300 hover:-translate-y-1 hover:border-blue/30 hover:shadow-[0_24px_50px_-24px_rgb(8_29_72/0.35)]">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border/80 bg-white shadow-[0_4px_20px_-8px_rgb(8_29_72/0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-blue/30 hover:shadow-[0_20px_40px_-15px_rgb(8_29_72/0.14)]">
+      {/* ── Visual Media ── */}
       <Link
         href={href}
-        className="relative block aspect-[16/9] overflow-hidden bg-section"
+        className="relative block aspect-[16/10] overflow-hidden bg-section"
         tabIndex={-1}
       >
         <Image
@@ -62,65 +63,57 @@ export function ProgrammeCard({ programme: p }: { programme: Programme }) {
         />
         <div
           aria-hidden
-          className="absolute inset-0 bg-gradient-to-t from-navy/70 via-navy/10 to-transparent"
+          className="absolute inset-0 bg-gradient-to-t from-navy/75 via-navy/15 to-transparent"
         />
-        <span className="absolute top-3 left-3 rounded-full bg-orange px-2.5 py-1 text-[11px] font-semibold text-white">
+        <span className="absolute top-3.5 left-3.5 rounded-full bg-orange px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm">
           Coming soon
         </span>
-        <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur">
-          <CatIcon className="size-3.5" aria-hidden /> {cat.name}
+        <span className="absolute bottom-3.5 left-3.5 inline-flex items-center gap-1.5 rounded-full bg-white/20 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md">
+          {CatIcon && <CatIcon className="size-3.5" aria-hidden />}
+          <span>{cat.name}</span>
         </span>
       </Link>
 
-      <div className="flex flex-1 flex-col gap-3 p-5">
+      {/* ── Content & Meta ── */}
+      <div className="flex flex-1 flex-col gap-3.5 p-5 sm:p-6">
         <div className="flex items-center gap-2.5">
-          <InstitutionMark slug={p.institution} size={34} />
-          <span className="text-xs leading-tight text-muted-foreground">
-            {inst ? (
-              <>
-                In development with
-                <br />
-                <span className="font-semibold text-navy">{inst.name}</span>
-              </>
-            ) : (
-              <>
-                Zenvogo
-                <br />
-                <span className="font-semibold text-navy">{kindLabel[p.kind].singular}</span>
-              </>
-            )}
-          </span>
+          <InstitutionMark slug={p.institution} size={32} />
+          <div className="min-w-0 text-xs leading-tight">
+            <span className="block text-muted-foreground">In development with</span>
+            <span className="truncate font-semibold text-navy">
+              {inst?.name ?? `Zenvogo ${kindLabel[p.kind].singular}`}
+            </span>
+          </div>
         </div>
-        <h3 className="text-[17px] leading-snug font-semibold text-navy">
-          <Link href={href} className="transition-colors hover:text-blue">
+
+        <h3 className="text-[17px] leading-snug font-bold text-navy transition-colors duration-200 group-hover:text-blue">
+          <Link href={href} className="line-clamp-2">
             {p.title}
           </Link>
         </h3>
-        <p className="line-clamp-2 text-sm text-muted-foreground">{p.summary}</p>
 
-        <div className="mt-auto flex flex-wrap gap-x-4 gap-y-1 border-t border-border pt-3 text-xs text-muted-foreground">
-          <span className="inline-flex items-center gap-1.5">
-            <BookOpen className="size-3.5" /> {p.modules.length} modules
+        <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">{p.summary}</p>
+
+        {/* ── Specs / Metadata ── */}
+        <div className="mt-auto flex items-center justify-between border-t border-border/80 pt-3.5 text-xs text-muted-foreground">
+          <span className="inline-flex items-center gap-1.5 font-medium">
+            <BookOpen className="size-3.5 text-blue" />
+            <span>{p.modules.length} modules</span>
           </span>
-          <span className="inline-flex items-center gap-1.5">
-            <Clock className="size-3.5" /> Duration TBA
+          <span className="inline-flex items-center gap-1.5 font-medium">
+            <Clock className="size-3.5 text-orange" />
+            <span>Duration TBA</span>
           </span>
         </div>
-        <div className="grid grid-cols-2 gap-2">
-          <Link
-            href={href}
-            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-lg bg-navy text-sm font-semibold text-white transition-colors hover:bg-blue"
-          >
-            View {kindLabel[p.kind].singular}
-            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-          </Link>
-          <Link
-            href={`${href}#curriculum`}
-            className="inline-flex h-10 items-center justify-center rounded-lg border border-border text-sm font-semibold text-navy transition-colors hover:border-blue hover:text-blue"
-          >
-            Curriculum
-          </Link>
-        </div>
+
+        {/* ── Primary Action Button ── */}
+        <Link
+          href={href}
+          className="mt-1 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-navy text-sm font-semibold text-white shadow-sm transition-all duration-200 group-hover:bg-blue group-hover:shadow-md"
+        >
+          <span>View {kindLabel[p.kind].singular}</span>
+          <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
+        </Link>
       </div>
     </article>
   );

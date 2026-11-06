@@ -7,7 +7,6 @@ import { Accent, SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { PageHero } from "@/components/sections/PageHero";
 import { ApproachTimeline } from "@/components/sections/ApproachTimeline";
-import { CareerGrowthScene } from "@/components/three";
 import { CTASection } from "@/components/sections/CTASection";
 import { Check, X } from "lucide-react";
 
@@ -24,7 +23,6 @@ export default function ApproachPage() {
         eyebrow="Our Approach"
         crumbs={[{ label: "Our Approach" }]}
         title="From industry challenges to curated learning"
-        scene={<CareerGrowthScene labels={false} />}
         text="We don't start with a course catalogue. We start with the people who'll use what we build — and work backwards to the programme they need."
       />
 

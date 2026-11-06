@@ -15,6 +15,20 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  async redirects() {
+    return [
+      {
+        source: "/solutions/global-education-exchange",
+        destination: "/immersion-programs",
+        permanent: true,
+      },
+      {
+        source: "/solutions/:path*",
+        destination: "/programs",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
