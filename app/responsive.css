@@ -1,0 +1,44 @@
+/* ───────────────────────── Responsive / mobile rules ─────────────────────────
+   Site-wide responsive CSS lives here. Imported by globals.css (keep it imported
+   there, not in layout.tsx, so Tailwind still processes the @utility rules).
+
+   Breakpoints (Tailwind defaults):
+     phone  < 640px  (40rem)   → max-sm: / base classes
+     sm     ≥ 640px            → sm:
+     md     ≥ 768px            → md:
+     lg     ≥ 1024px (64rem)   → lg:
+     xl     ≥ 1280px           → xl:
+
+   Mobile type scale used across components (base classes, below 640px):
+     Page / hero H1 ........ 30px
+     Section H2 ............ 26px
+     Card / sub headings ... 18–22px
+     Lead paragraphs ....... 15–16px
+     Buttons ............... 44px tall, 14px text   (48px / 15px from sm:)
+     Form inputs ........... 16px minimum (stops iOS Safari zooming on focus)
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* Row of call-to-action buttons: side by side from 640px, stacked full-width on phones.
+   Usage: <div className="btn-group"> <Button …/> <Button …/> </div> */
+@utility btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  @media (width < 40rem) {
+    flex-direction: column;
+    align-items: stretch;
+    & > * {
+      width: 100%;
+    }
+  }
+}
+
+@layer base {
+  /* Keep the fixed mobile "apply" bar (MobileApplyBar, below 1024px) from covering
+     the end of the footer. */
+  @media (width < 64rem) {
+    body:has([data-apply-bar]) {
+      padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+    }
+  }
+}

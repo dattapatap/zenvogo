@@ -32,7 +32,7 @@ export default function PartnersPage() {
         crystal={false}
         className="pb-36 sm:pb-40 lg:pb-48"
       >
-        <div className="flex flex-wrap gap-3">
+        <div className="btn-group">
           <Button href="/contact?type=institution" arrow>
             Become a Partner
           </Button>
@@ -69,7 +69,7 @@ export default function PartnersPage() {
                 with their permission. Join the network to co-create programmes with us.
               </p>
             </div>
-            <Button href="/contact?type=institution" arrow className="shrink-0">
+            <Button href="/contact?type=institution" arrow className="w-full shrink-0 sm:w-auto">
               Become a Partner
             </Button>
           </Reveal>
@@ -92,7 +92,7 @@ export default function PartnersPage() {
           <div className="grid gap-6 md:grid-cols-3">
             {academicNetwork.pillars.map((p, i) => (
               <Reveal key={p.title} delay={i * 0.08} className="h-full">
-                <div className="relative flex h-full card-hover flex-col overflow-hidden card p-8">
+                <div className="relative flex h-full card-hover flex-col overflow-hidden card p-6 sm:p-8">
                   <span
                     aria-hidden
                     className="absolute top-6 right-7 font-display text-5xl font-extrabold text-navy/5"
@@ -100,7 +100,7 @@ export default function PartnersPage() {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <IconBadge name={p.icon} tone={i === 1 ? "orange" : "blue"} />
-                  <h3 className="mt-6 text-[22px] font-semibold">{p.title}</h3>
+                  <h3 className="mt-5 text-xl font-semibold sm:mt-6 sm:text-[22px]">{p.title}</h3>
                   <p className="mt-2 text-muted-foreground">{p.text}</p>
                 </div>
               </Reveal>
@@ -132,7 +132,7 @@ export default function PartnersPage() {
           <ul className="grid gap-4 sm:grid-cols-2 sm:gap-5">
             {academicNetwork.benefits.map((b, i) => (
               <Reveal as="li" key={b} delay={i * 0.07} className="h-full">
-                <div className="flex h-full card-hover flex-col gap-4 card p-6">
+                <div className="flex h-full card-hover flex-col gap-4 card p-5 sm:p-6">
                   <div className="flex items-center justify-between">
                     <IconBadge
                       name={benefitIcons[i] ?? "handshake"}
@@ -143,7 +143,7 @@ export default function PartnersPage() {
                       {String(i + 1).padStart(2, "0")}
                     </span>
                   </div>
-                  <p className="font-display text-[17px] leading-snug font-semibold text-navy">
+                  <p className="font-display text-base leading-snug font-semibold text-navy sm:text-[17px]">
                     {b}
                   </p>
                 </div>

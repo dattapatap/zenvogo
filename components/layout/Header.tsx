@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
-import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { mainNav, primaryCta, siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -18,6 +18,8 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdown, setDropdown] = useState<MegaMenuKey | null>(null);
+  /** Which mega section is expanded in the mobile menu (all collapsed by default). */
+  const [mobileSection, setMobileSection] = useState<MegaMenuKey | null>(null);
 
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 8));
 
@@ -27,6 +29,7 @@ export function Header() {
     setLastPath(pathname);
     setMobileOpen(false);
     setDropdown(null);
+    setMobileSection(null);
   }
 
   useEffect(() => {
@@ -43,10 +46,13 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 border-b bg-white/95 backdrop-blur transition-shadow duration-300",
+        "sticky top-0 z-50 border-b transition-shadow duration-300",
         scrolled ? "border-border shadow-[0_6px_24px_-12px_rgb(8_29_72/0.18)]" : "border-[#e8edf4]",
       )}
     >
+      {/* Frosted background on its own layer: a backdrop-filter on the <header> itself would
+          make it the containing block for the fixed mobile menu, collapsing the menu to 0px. */}
+      <div aria-hidden className="absolute inset-0 -z-10 bg-white/95 backdrop-blur" />
       <Container className="flex h-[68px] items-center justify-between gap-6 sm:h-[76px] lg:h-20">
         <Link href="/" aria-label={`${siteConfig.name} home`} className="shrink-0">
           <Logo priority />
@@ -120,7 +126,10 @@ export function Header() {
             </Link>
             <button
               type="button"
-              onClick={() => setMobileOpen((o) => !o)}
+              onClick={() => {
+                setMobileOpen((o) => !o);
+                setMobileSection(null);
+              }}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
               className="grid size-11 place-items-center rounded-lg border border-border text-navy xl:hidden"
@@ -150,47 +159,100 @@ export function Header() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "tween", duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="fixed top-[68px] right-0 bottom-0 z-50 flex w-full max-w-sm flex-col overflow-y-auto border-l border-border bg-white px-6 py-6 shadow-2xl sm:top-[76px] xl:hidden"
+              className="fixed top-[68px] right-0 bottom-0 z-50 flex w-full max-w-sm flex-col overflow-y-auto border-l border-border bg-white px-5 pt-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-2xl sm:top-[76px] xl:hidden"
             >
               <ul className="flex flex-col">
-                {[{ label: "Home", href: "/" }, ...mainNav].map((item, i) => (
-                  <motion.li
-                    key={item.href}
-                    initial={{ opacity: 0, x: 24 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.08 + i * 0.04 }}
-                    className="border-b border-border/70 last:border-0"
-                  >
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        "flex items-center justify-between py-4 text-lg font-semibold",
-                        pathname === item.href ? "text-blue" : "text-navy",
-                      )}
+                {[{ label: "Home", href: "/" }, ...mainNav].map((item, i) => {
+                  const mega = "mega" in item ? item.mega : undefined;
+                  const expanded = !!mega && mobileSection === mega;
+                  const current = item.href === "/" ? pathname === "/" : isActive(item.href);
+                  return (
+                    <motion.li
+                      key={item.href}
+                      initial={{ opacity: 0, x: 24 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.08 + i * 0.04 }}
+                      className="border-b border-border/70 last:border-0"
                     >
-                      {item.label}
-                      <ArrowRight className="size-4 text-muted-foreground" />
-                    </Link>
-                    {"mega" in item && item.mega && (
-                      <ul className="mb-4 flex flex-col gap-1 border-l-2 border-orange/50 pl-4">
-                        {megaMenus[item.mega].items.map((c) => (
-                          <li key={c.href}>
-                            <Link
-                              href={c.href}
-                              className="block py-1.5 text-sm text-muted-foreground"
-                            >
-                              {c.title}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </motion.li>
-                ))}
+                      {mega ? (
+                        <>
+                          {/* Mega items toggle their sub-list instead of navigating. */}
+                          <button
+                            type="button"
+                            aria-expanded={expanded}
+                            aria-controls={`mobile-sub-${mega}`}
+                            onClick={() => setMobileSection(expanded ? null : mega)}
+                            className={cn(
+                              "flex w-full items-center justify-between py-3.5 text-left text-base font-semibold",
+                              current || expanded ? "text-blue" : "text-navy",
+                            )}
+                          >
+                            {item.label}
+                            <ChevronDown
+                              aria-hidden
+                              className={cn(
+                                "size-5 text-muted-foreground transition-transform duration-300",
+                                expanded && "rotate-180 text-blue",
+                              )}
+                            />
+                          </button>
+                          <AnimatePresence initial={false}>
+                            {expanded && (
+                              <motion.div
+                                id={`mobile-sub-${mega}`}
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                                className="overflow-hidden"
+                              >
+                                <ul className="mb-4 flex flex-col border-l-2 border-orange/50 pl-4">
+                                  {megaMenus[mega].items.map((c) => (
+                                    <li key={c.href}>
+                                      <Link
+                                        href={c.href}
+                                        className={cn(
+                                          "block py-2 text-sm",
+                                          pathname === c.href
+                                            ? "font-semibold text-blue"
+                                            : "text-muted-foreground",
+                                        )}
+                                      >
+                                        {c.title}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                  <li>
+                                    <Link
+                                      href={megaMenus[mega].viewAll.href}
+                                      className="block py-2 text-sm font-semibold text-blue"
+                                    >
+                                      {megaMenus[mega].viewAll.label}
+                                    </Link>
+                                  </li>
+                                </ul>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </>
+                      ) : (
+                        <Link
+                          href={item.href}
+                          className={cn(
+                            "block py-3.5 text-base font-semibold",
+                            current ? "text-blue" : "text-navy",
+                          )}
+                        >
+                          {item.label}
+                        </Link>
+                      )}
+                    </motion.li>
+                  );
+                })}
               </ul>
               <Link
                 href={primaryCta.href}
-                className="mt-auto flex h-12 shrink-0 items-center justify-center rounded-lg bg-orange font-semibold text-white"
+                className="mt-6 flex h-12 shrink-0 items-center justify-center rounded-lg bg-orange text-[15px] font-semibold text-white"
               >
                 {primaryCta.label}
               </Link>

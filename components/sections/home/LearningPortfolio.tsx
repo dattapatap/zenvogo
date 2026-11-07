@@ -188,9 +188,9 @@ function PinnedPortfolio() {
 function StaticPortfolio() {
   const [active, setActive] = useState(0);
   return (
-    <Container className="flex flex-col gap-10 pt-14 pb-14 sm:pt-16 sm:pb-[72px] lg:pt-20 lg:pb-[100px]">
+    <Container className="flex flex-col gap-8 pt-14 pb-14 sm:gap-10 sm:pt-16 sm:pb-[72px] lg:pt-20 lg:pb-[100px]">
       <SectionHeading eyebrow="Learning portfolio" title={title} />
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-6 sm:gap-8">
         <Tabs active={active} onSelect={setActive} />
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
@@ -409,7 +409,7 @@ function PanelFooter({
       )}
     >
       <div className="min-w-0">{children}</div>
-      <div className="shrink-0">{cta}</div>
+      <div className="shrink-0 max-sm:*:w-full">{cta}</div>
     </div>
   );
 }
@@ -537,7 +537,7 @@ function ImmersionsPanel({ fill }: { fill?: boolean }) {
               <span className="absolute top-4 right-4 grid size-9 place-items-center rounded-full bg-white/15 backdrop-blur transition-colors group-hover:bg-orange">
                 <ArrowUpRight aria-hidden className="size-4" />
               </span>
-              <span className="font-display text-xl font-bold sm:text-2xl">{d.name}</span>
+              <span className="font-display text-lg font-bold sm:text-2xl">{d.name}</span>
               <span className="mt-0.5 line-clamp-1 text-sm text-white/80">{d.title}</span>
             </Link>
           </li>

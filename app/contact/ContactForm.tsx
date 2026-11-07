@@ -11,7 +11,7 @@ import { enquiryTypes, isEnquiryType } from "./enquiry";
 const initial: ContactState = { ok: false, message: "" };
 
 const inputCls =
-  "h-12 rounded-lg border border-[#c4d3e5] bg-white px-4 text-foreground outline-none transition-all placeholder:text-muted-foreground/70 hover:border-blue/50 focus:border-blue focus:ring-3 focus:ring-blue/15";
+  "h-12 rounded-lg border border-[#c4d3e5] bg-white px-4 text-base text-foreground outline-none transition-all placeholder:text-muted-foreground/70 hover:border-blue/50 focus:border-blue focus:ring-3 focus:ring-blue/15";
 
 export function ContactForm() {
   const params = useSearchParams();
@@ -23,11 +23,11 @@ export function ContactForm() {
       <motion.div
         initial={{ opacity: 0, scale: 0.97 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="flex flex-col items-center gap-4 rounded-2xl border border-[#c4d3e5] bg-white p-12 text-center shadow-[0_16px_40px_-12px_rgb(8_29_72/0.08)]"
+        className="flex flex-col items-center gap-4 rounded-2xl border border-[#c4d3e5] bg-white p-8 text-center shadow-[0_16px_40px_-12px_rgb(8_29_72/0.08)] sm:p-12"
         role="status"
       >
         <CheckCircle2 className="size-14 text-orange" />
-        <h2 className="text-[26px] font-bold">Message sent</h2>
+        <h2 className="text-[22px] font-bold sm:text-[26px]">Message sent</h2>
         <p className="text-muted-foreground">{state.message}</p>
       </motion.div>
     );
@@ -62,11 +62,11 @@ function FormFields({
   return (
     <form
       action={action}
-      className="flex flex-col gap-5 rounded-2xl border border-[#c4d3e5] bg-white p-6 shadow-[0_16px_40px_-12px_rgb(8_29_72/0.08)] sm:p-10"
+      className="flex flex-col gap-5 rounded-2xl border border-[#c4d3e5] bg-white p-5 shadow-[0_16px_40px_-12px_rgb(8_29_72/0.08)] sm:p-10"
       noValidate
     >
       <div>
-        <h2 className="text-[26px] font-bold">Send us a message</h2>
+        <h2 className="text-[22px] font-bold sm:text-[26px]">Send us a message</h2>
         <p className="mt-1 text-sm text-muted-foreground">We reply within one business day.</p>
       </div>
 
@@ -127,7 +127,7 @@ function FormFields({
       <button
         type="submit"
         disabled={pending}
-        className="group inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-orange px-6 font-semibold text-white shadow-[0_8px_24px_-8px_rgb(255_104_24/0.6)] transition-all hover:-translate-y-0.5 hover:bg-[#ec5a0c] disabled:opacity-60 sm:w-fit"
+        className="group inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-orange px-6 text-[15px] font-semibold text-white shadow-[0_8px_24px_-8px_rgb(255_104_24/0.6)] transition-all hover:-translate-y-0.5 hover:bg-[#ec5a0c] disabled:opacity-60 sm:w-fit"
       >
         {pending ? (
           <Loader2 className="size-4 animate-spin" />

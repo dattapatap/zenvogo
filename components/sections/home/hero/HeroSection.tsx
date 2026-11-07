@@ -16,7 +16,7 @@ export function HeroSection({ children }: { children?: React.ReactNode }) {
       className="relative isolate w-full overflow-hidden bg-white"
     >
       <HeroBackground />
-      <Container className="grid grid-cols-1 items-center gap-12 pt-10 pb-12 sm:pt-14 sm:pb-14 lg:gap-14 xl:min-h-[min(calc(100svh-var(--hero-offset)),1000px)] xl:grid-cols-[45fr_55fr] xl:gap-10 xl:pt-16 xl:pb-12 xl:[--hero-offset:156px]">
+      <Container className="grid grid-cols-1 items-center gap-6 pt-6 pb-10 sm:pt-14 sm:pb-14 md:gap-12 lg:gap-14 xl:min-h-[min(calc(100svh-var(--hero-offset)),1000px)] xl:grid-cols-[45fr_55fr] xl:gap-10 xl:pt-16 xl:pb-12 xl:[--hero-offset:156px]">
         <HeroContent />
         <HeroVisual />
       </Container>

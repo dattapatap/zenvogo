@@ -45,15 +45,17 @@ export default async function InsightPage(props: PageProps<"/blogs/[slug]">) {
 
       <article className="py-14 sm:py-[72px]">
         <Container className="max-w-3xl">
-          <Reveal className="flex flex-col gap-10">
+          <Reveal className="flex flex-col gap-8 sm:gap-10">
             {post.sections.map((s, i) => (
               <section key={i} className="flex flex-col gap-4">
-                {s.heading && <h2 className="text-[26px] font-bold">{s.heading}</h2>}
+                {s.heading && <h2 className="text-[22px] font-bold sm:text-[26px]">{s.heading}</h2>}
                 {s.body.map((p) => (
                   <p
                     key={p}
                     className={
-                      i === 0 ? "text-xl leading-relaxed text-navy" : "text-lg text-foreground/85"
+                      i === 0
+                        ? "text-lg leading-relaxed text-navy sm:text-xl"
+                        : "text-base text-foreground/85 sm:text-lg"
                     }
                   >
                     {p}
@@ -63,7 +65,7 @@ export default async function InsightPage(props: PageProps<"/blogs/[slug]">) {
             ))}
           </Reveal>
 
-          <div className="mt-16 border-t border-border pt-8">
+          <div className="mt-12 border-t border-border pt-8 sm:mt-16">
             <Link
               href="/blogs"
               className="inline-flex items-center gap-2 text-sm font-semibold text-blue hover:text-navy"

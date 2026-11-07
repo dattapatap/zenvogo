@@ -219,11 +219,11 @@ function NavButton({
 
 function SwipeGallery() {
   return (
-    <div className="flex flex-col gap-8 py-14 sm:py-[72px] lg:py-[100px]">
+    <div className="flex flex-col gap-6 py-14 sm:gap-8 sm:py-[72px] lg:py-[100px]">
       <Container>
         <Reveal className="flex flex-col gap-4">
           <Eyebrow>Industries</Eyebrow>
-          <h2 className="text-[29px] font-bold text-balance sm:text-[34px]">{heading}</h2>
+          <h2 className="text-[26px] font-bold text-balance sm:text-[34px]">{heading}</h2>
           <p className="flex items-center gap-2 text-sm text-muted-foreground">
             Swipe to explore all {industries.length} industries
             <MoveRight aria-hidden className="size-4 text-orange" />
@@ -395,7 +395,7 @@ function CtaCard() {
   return (
     <div
       className={cn(
-        "relative isolate flex flex-col justify-between gap-6 overflow-hidden rounded-3xl bg-[linear-gradient(135deg,#ff8a3d,#ff6818_55%,#e0500a)] p-7 text-white xl:p-8",
+        "relative isolate flex flex-col justify-between gap-6 overflow-hidden rounded-3xl bg-[linear-gradient(135deg,#ff8a3d,#ff6818_55%,#e0500a)] p-6 text-white sm:p-7 xl:p-8",
         cardSize,
         "lg:w-[320px] xl:w-[340px]",
       )}
@@ -409,7 +409,7 @@ function CtaCard() {
         <p className="text-xs font-semibold tracking-[0.14em] text-white/80 uppercase">
           Your sector
         </p>
-        <p className="mt-4 font-display text-[28px] leading-tight font-bold">
+        <p className="mt-4 font-display text-2xl leading-tight font-bold sm:text-[28px]">
           Don&apos;t see your industry?
         </p>
         <p className="mt-3 text-[15px] text-white/85">

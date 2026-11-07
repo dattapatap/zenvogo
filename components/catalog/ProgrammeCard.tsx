@@ -86,7 +86,7 @@ export function ProgrammeCard({ programme: p }: { programme: Programme }) {
           </div>
         </div>
 
-        <h3 className="text-[17px] leading-snug font-bold text-navy transition-colors duration-200 group-hover:text-blue">
+        <h3 className="text-base leading-snug font-bold text-navy transition-colors duration-200 group-hover:text-blue sm:text-[17px]">
           <Link href={href} className="line-clamp-2">
             {p.title}
           </Link>

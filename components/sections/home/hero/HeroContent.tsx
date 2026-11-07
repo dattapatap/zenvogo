@@ -29,7 +29,7 @@ export function HeroContent() {
       variants={list}
       initial="hidden"
       animate="show"
-      className="relative z-10 flex max-w-2xl min-w-0 flex-col items-start gap-6 lg:gap-7 xl:max-w-none"
+      className="relative z-10 flex max-w-2xl min-w-0 flex-col items-start gap-5 sm:gap-6 lg:gap-7 xl:max-w-none"
     >
       <motion.p
         variants={item}
@@ -52,7 +52,7 @@ export function HeroContent() {
       <motion.h1
         id="hero-heading"
         variants={item}
-        className="text-[34px] leading-[1.12] font-extrabold text-balance text-navy sm:text-[44px] lg:text-[44px] xl:w-[120%] xl:text-[52px] xl:leading-[1.1]"
+        className="text-[30px] leading-[1.15] font-extrabold text-balance text-navy sm:text-[44px] lg:text-[44px] xl:w-[120%] xl:text-[52px] xl:leading-[1.1]"
       >
         Industry-Led Programs to Learn, Build, and <ScribbleUnderline>Upgrade</ScribbleUnderline>{" "}
         Your Career
@@ -60,7 +60,7 @@ export function HeroContent() {
 
       <motion.p
         variants={item}
-        className="max-w-xl text-base text-pretty text-muted-foreground sm:text-[17px] xl:text-lg"
+        className="max-w-xl text-[15px] text-pretty text-muted-foreground sm:text-[17px] xl:text-lg"
       >
         Hands-on training, advanced labs, AI infrastructure, prestigious academic exposure with
         IITs, global immersions, and recognised certifications — all in one learning journey.
@@ -68,19 +68,22 @@ export function HeroContent() {
 
       <motion.div
         variants={item}
-        className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap"
+        // Phones: both buttons share one row at half width each (compact text, no arrow).
+        className="flex w-full gap-3 sm:w-auto sm:flex-wrap"
       >
         <Button
           href="/programs"
           arrow
-          className="w-full hover:shadow-[0_14px_30px_-10px_rgb(255_104_24/0.65)] sm:w-auto"
+          className="min-w-0 flex-1 px-3 text-[13px] whitespace-nowrap hover:shadow-[0_14px_30px_-10px_rgb(255_104_24/0.65)] sm:flex-none max-sm:[&_svg]:hidden"
         >
-          Explore Our Programs
+          <span>
+            Explore <span className="max-sm:hidden">Our </span>Programs
+          </span>
         </Button>
         <Button
           href="/contact?type=institution"
           variant="outline"
-          className="w-full border-blue/35 bg-white hover:-translate-y-0.5 hover:border-blue hover:shadow-[0_14px_30px_-14px_rgb(8_102_217/0.5)] sm:w-auto"
+          className="min-w-0 flex-1 border-blue/35 bg-white px-3 text-[13px] whitespace-nowrap hover:-translate-y-0.5 hover:border-blue hover:shadow-[0_14px_30px_-14px_rgb(8_102_217/0.5)] sm:flex-none"
         >
           Partner With Us
         </Button>

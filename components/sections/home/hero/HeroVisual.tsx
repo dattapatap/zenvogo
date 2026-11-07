@@ -81,7 +81,8 @@ export function HeroVisual() {
       transition={{ duration: 0.9, delay: 0.15, ease }}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
-      className="relative mx-auto w-full max-w-[760px] min-w-0 [perspective:1600px] xl:-ml-[3%] xl:w-[103%] xl:max-w-none"
+      // Phones (< 768px): the compact visual leads, the headline and buttons follow below it.
+      className="relative mx-auto w-full max-w-[760px] min-w-0 [perspective:1600px] max-md:order-first xl:-ml-[3%] xl:w-[103%] xl:max-w-none"
     >
       <h2 className="sr-only">Your learning journey</h2>
 

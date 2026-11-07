@@ -56,13 +56,13 @@ export default function CareersPage() {
             ))}
           </div>
 
-          <Reveal className="dark-section rounded-2xl bg-navy p-10 text-center text-white/75 sm:p-14">
-            <h2 className="text-[29px] font-bold">No open roles right now</h2>
+          <Reveal className="dark-section rounded-2xl bg-navy p-6 text-center text-white/75 sm:p-14">
+            <h2 className="text-2xl font-bold sm:text-[29px]">No open roles right now</h2>
             <p className="mx-auto mt-3 max-w-xl">
               We&apos;re not actively hiring at the moment, but we&apos;re always keen to meet great
               people in programme design, partnerships and growth. Send us your CV.
             </p>
-            <div className="mt-7 flex flex-wrap justify-center gap-3">
+            <div className="mt-7 btn-group justify-center">
               <Button href={`mailto:${siteConfig.contact.email}?subject=CV%20submission`} arrow>
                 Send Your CV
               </Button>

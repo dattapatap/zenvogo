@@ -13,8 +13,8 @@ import { Button } from "@/components/ui/Button";
 export function WorkWithUs() {
   return (
     <Section>
-      <Container className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
-        <div className="flex flex-col gap-8 lg:sticky lg:top-28 lg:self-start">
+      <Container className="grid gap-8 sm:gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+        <div className="flex flex-col gap-6 sm:gap-8 lg:sticky lg:top-28 lg:self-start">
           <SectionHeading
             eyebrow="Work With Us"
             title={
@@ -44,7 +44,7 @@ export function WorkWithUs() {
               <Reveal as="li" key={p.title} delay={i * 0.06}>
                 <Link
                   href={p.href}
-                  className="group relative flex items-center gap-5 overflow-hidden rounded-2xl border border-border bg-white p-5 transition-all duration-300 hover:border-navy hover:bg-navy hover:shadow-[0_24px_50px_-24px_rgb(8_29_72/0.55)] sm:gap-6 sm:p-6"
+                  className="group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-border bg-white p-4 transition-all duration-300 hover:border-navy hover:bg-navy hover:shadow-[0_24px_50px_-24px_rgb(8_29_72/0.55)] sm:gap-5 sm:gap-6 sm:p-5 sm:p-6"
                 >
                   <span className="hidden w-7 font-display text-sm font-bold text-muted-foreground/60 transition-colors group-hover:text-gold sm:block">
                     {String(i + 1).padStart(2, "0")}

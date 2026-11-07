@@ -65,14 +65,14 @@ export function DetailNav({
 
   return (
     <div className="sticky top-[68px] z-40 border-b border-border bg-white/95 backdrop-blur sm:top-[76px] lg:top-20">
-      <div className="mx-auto flex max-w-[1400px] items-center gap-4 px-5 sm:px-7 lg:px-10">
+      <div className="mx-auto flex max-w-[1400px] items-center gap-4 px-2 sm:px-7 lg:px-10">
         <ul ref={listRef} className="no-scrollbar flex flex-1 gap-1 overflow-x-auto">
           {tabs.map((t) => (
             <li key={t.id} data-tab={t.id}>
               <a
                 href={`#${t.id}`}
                 className={cn(
-                  "relative block px-3 py-4 text-sm font-semibold whitespace-nowrap transition-colors",
+                  "relative block px-3 py-3.5 text-sm font-semibold whitespace-nowrap transition-colors sm:py-4",
                   active === t.id ? "text-blue" : "text-navy/60 hover:text-navy",
                 )}
               >
@@ -110,7 +110,10 @@ export function MobileApplyBar({
   cta: { label: string; href: string };
 }) {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t border-border bg-white/95 px-4 py-3 shadow-[0_-10px_30px_-15px_rgb(8_29_72/0.3)] backdrop-blur lg:hidden">
+    <div
+      data-apply-bar
+      className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t border-border bg-white/95 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-10px_30px_-15px_rgb(8_29_72/0.3)] backdrop-blur lg:hidden"
+    >
       <p className="line-clamp-2 flex-1 text-sm leading-tight font-semibold text-navy">{title}</p>
       <Link
         href={cta.href}

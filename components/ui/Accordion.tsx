@@ -26,7 +26,7 @@ export function Accordion({ items, className }: { items: Item[]; className?: str
                 aria-expanded={isOpen}
                 aria-controls={`${id}-${i}`}
                 onClick={() => setOpen(isOpen ? null : i)}
-                className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left font-semibold"
+                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left font-semibold sm:gap-6 sm:px-6 sm:py-5"
               >
                 {item.q}
                 <span
@@ -49,7 +49,9 @@ export function Accordion({ items, className }: { items: Item[]; className?: str
                   transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
-                  <p className="px-6 pb-6 text-muted-foreground">{item.a}</p>
+                  <p className="px-5 pb-5 text-[15px] text-muted-foreground sm:px-6 sm:pb-6 sm:text-base">
+                    {item.a}
+                  </p>
                 </motion.div>
               )}
             </AnimatePresence>

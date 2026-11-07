@@ -40,9 +40,9 @@ export default function BlogsPage() {
                   Featured
                 </span>
               </div>
-              <div className="flex flex-col justify-center gap-4 p-8 sm:p-10">
+              <div className="flex flex-col justify-center gap-3 p-6 sm:gap-4 sm:p-10">
                 <Eyebrow>{featured.category}</Eyebrow>
-                <h2 className="text-[26px] font-bold transition-colors group-hover:text-blue sm:text-[32px]">
+                <h2 className="text-[22px] font-bold transition-colors group-hover:text-blue sm:text-[32px]">
                   {featured.title}
                 </h2>
                 <p className="text-muted-foreground">{featured.excerpt}</p>
@@ -58,10 +58,10 @@ export default function BlogsPage() {
               <Reveal key={p.slug} delay={i * 0.08}>
                 <Link
                   href={`/blogs/${p.slug}`}
-                  className="group flex h-full card-hover flex-col card p-8"
+                  className="group flex h-full card-hover flex-col card p-6 sm:p-8"
                 >
                   <Eyebrow>{p.category}</Eyebrow>
-                  <h2 className="mt-4 text-[22px] font-semibold transition-colors group-hover:text-blue">
+                  <h2 className="mt-3 text-xl font-semibold transition-colors group-hover:text-blue sm:mt-4 sm:text-[22px]">
                     {p.title}
                   </h2>
                   <p className="mt-3 text-sm text-muted-foreground">{p.excerpt}</p>

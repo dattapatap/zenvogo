@@ -134,7 +134,7 @@ export default async function DestinationPage(props: PageProps<"/immersion-progr
               </div>
             ))}
           </dl>
-          <div className="flex flex-wrap gap-3">
+          <div className="btn-group">
             <Button href="#apply" arrow>
               {immersionCta.button}
             </Button>
@@ -152,18 +152,20 @@ export default async function DestinationPage(props: PageProps<"/immersion-progr
         <Container className="grid gap-10 lg:grid-cols-[1.3fr_1fr]">
           <div className="flex flex-col gap-6">
             <SectionHeading eyebrow="Overview" title={`Learning journeys in ${d.name}`} />
-            <Reveal className="flex flex-col gap-4 text-lg text-muted-foreground">
+            <Reveal className="flex flex-col gap-4 text-base text-muted-foreground sm:text-lg">
               <p>{d.text}</p>
               <p>{immersionIntro.partnerText}</p>
             </Reveal>
           </div>
           <Reveal className="self-start rounded-2xl bg-section p-6 sm:p-8">
-            <p className="mb-5 text-lg font-semibold text-navy">Every programme can combine</p>
+            <p className="mb-5 text-base font-semibold text-navy sm:text-lg">
+              Every programme can combine
+            </p>
             <ul className="flex flex-col gap-3.5">
               {approach.map((a) => {
                 const Icon = icons[a.icon];
                 return (
-                  <li key={a.text} className="flex items-start gap-3 text-[15px]">
+                  <li key={a.text} className="flex items-start gap-3 text-sm sm:text-[15px]">
                     <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-white text-orange shadow-sm">
                       <Icon className="size-4" strokeWidth={1.75} />
                     </span>
@@ -212,7 +214,7 @@ export default async function DestinationPage(props: PageProps<"/immersion-progr
               Need a different focus? Themes, visits and sessions are customised for every
               institution and cohort.
             </p>
-            <Button href="#apply" variant="secondary">
+            <Button href="#apply" variant="secondary" className="w-full shrink-0 sm:w-auto">
               Customise a programme
             </Button>
           </Reveal>
@@ -268,7 +270,6 @@ export default async function DestinationPage(props: PageProps<"/immersion-progr
         </Container>
       </Section>
 
-      <div className="h-20 lg:hidden" aria-hidden />
       <MobileApplyBar title={`${d.name} Immersion Programme`} cta={cta} />
     </>
   );

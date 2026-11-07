@@ -12,7 +12,7 @@ export function BlogsSection() {
   const [featured, ...rest] = insights;
   return (
     <Section tone="light">
-      <Container className="flex flex-col gap-10 lg:gap-12">
+      <Container className="flex flex-col gap-8 sm:gap-10 lg:gap-12">
         <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <SectionHeading
             eyebrow="Blogs"
@@ -34,7 +34,7 @@ export function BlogsSection() {
             <Reveal className="h-full">
               <Link
                 href={`/blogs/${featured.slug}`}
-                className="dark-section group relative isolate flex h-full min-h-[340px] flex-col overflow-hidden rounded-3xl bg-navy p-7 text-white/75 transition-shadow duration-300 hover:shadow-[0_30px_60px_-30px_rgb(8_29_72/0.7)] sm:p-9"
+                className="dark-section group relative isolate flex h-full min-h-[300px] flex-col overflow-hidden rounded-3xl bg-navy p-6 text-white/75 transition-shadow duration-300 hover:shadow-[0_30px_60px_-30px_rgb(8_29_72/0.7)] sm:min-h-[340px] sm:p-7 sm:p-9"
               >
                 <span aria-hidden className="absolute inset-0 -z-10 dot-grid-light opacity-70" />
                 <span
@@ -53,9 +53,9 @@ export function BlogsSection() {
                     <ArrowUpRight aria-hidden className="size-5" />
                   </span>
                 </div>
-                <div className="mt-auto pt-16">
+                <div className="mt-auto pt-12 sm:pt-16">
                   <Meta post={featured} dark />
-                  <h3 className="mt-3 text-2xl leading-tight font-bold text-balance text-white sm:text-[30px]">
+                  <h3 className="mt-3 text-[22px] leading-tight font-bold text-balance text-white sm:text-[30px]">
                     {featured.title}
                   </h3>
                   <p className="mt-3 max-w-xl text-[15px] text-white/70">{featured.excerpt}</p>
@@ -84,7 +84,7 @@ export function BlogsSection() {
                       <ArrowUpRight aria-hidden className="size-4" />
                     </span>
                   </div>
-                  <h3 className="mt-3 text-xl leading-snug font-semibold transition-colors group-hover:text-blue">
+                  <h3 className="mt-3 text-lg leading-snug font-semibold transition-colors group-hover:text-blue sm:text-xl">
                     {p.title}
                   </h3>
                   <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{p.excerpt}</p>

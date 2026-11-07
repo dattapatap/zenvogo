@@ -19,6 +19,7 @@ const columns = [
   },
   {
     title: "Our Programs",
+    className: "col-span-2 max-sm:order-1 sm:col-span-1",
     links: categories.map((c) => ({ label: c.name, href: `/programs?category=${c.slug}` })),
   },
   {
@@ -35,8 +36,8 @@ export function Footer() {
   const { contact } = siteConfig;
   return (
     <footer className="bg-navy text-[#d3dded]">
-      <Container className="grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1.2fr]">
-        <div className="flex flex-col gap-4 sm:col-span-2 lg:col-span-1">
+      <Container className="grid grid-cols-2 gap-x-6 gap-y-10 py-12 sm:gap-12 sm:py-16 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1.2fr]">
+        <div className="col-span-2 flex flex-col gap-4 lg:col-span-1">
           <Logo variant="light" className="w-[195px] lg:w-[225px]" />
           <p className="max-w-sm text-sm leading-relaxed text-[#d3dded]/85">
             Bridging industry, academia, and innovation to create impactful learning programmes,
@@ -49,9 +50,9 @@ export function Footer() {
         </div>
 
         {columns.map((col) => (
-          <div key={col.title}>
+          <div key={col.title} className={"className" in col ? col.className : undefined}>
             <h3 className="mb-4 text-base font-semibold text-white">{col.title}</h3>
-            <ul className="flex flex-col gap-2.5 text-sm">
+            <ul className="flex flex-col gap-3 text-sm sm:gap-2.5">
               {col.links.map((l) => (
                 <li key={l.label}>
                   <Link href={l.href} className="transition-colors hover:text-white">
@@ -63,7 +64,7 @@ export function Footer() {
           </div>
         ))}
 
-        <div>
+        <div className="col-span-2 max-sm:order-2 sm:col-span-1">
           <h3 className="mb-4 text-base font-semibold text-white">Connect</h3>
           <ul className="flex flex-col gap-3 text-sm">
             <li>
@@ -96,7 +97,7 @@ export function Footer() {
       </Container>
 
       <div className="border-t border-white/10">
-        <Container className="flex flex-col items-center justify-between gap-3 py-6 text-xs text-[#d3dded]/60 sm:flex-row">
+        <Container className="flex flex-col items-center justify-between gap-2 py-6 text-center text-xs text-[#d3dded]/60 sm:flex-row">
           <p>© {siteConfig.name}. All rights reserved.</p>
           <p>{siteConfig.tagline}</p>
         </Container>

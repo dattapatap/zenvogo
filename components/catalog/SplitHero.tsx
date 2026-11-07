@@ -62,11 +62,11 @@ export function SplitHero({
 
       <Container
         className={cn(
-          "grid gap-10 py-12 sm:py-16 lg:py-20",
+          "grid gap-8 py-10 sm:gap-10 sm:py-16 lg:py-20",
           aside && "lg:grid-cols-[1fr_380px] lg:items-center xl:gap-16",
         )}
       >
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-4 sm:gap-5">
           <Reveal y={8}>
             <nav aria-label="Breadcrumb">
               <ol className="flex flex-wrap items-center gap-1.5 text-sm text-white/60">
@@ -96,25 +96,28 @@ export function SplitHero({
             </Reveal>
           )}
           <Reveal delay={0.08}>
-            <h1 className="text-[32px] leading-[1.12] font-bold text-balance text-white sm:text-[42px] lg:text-[50px]">
+            <h1 className="text-[30px] leading-[1.15] font-bold text-balance text-white sm:text-[42px] lg:text-[50px]">
               {title}
             </h1>
           </Reveal>
           {tagline && (
             <Reveal delay={0.12}>
-              <p className="text-lg font-semibold text-gold sm:text-xl">{tagline}</p>
+              <p className="text-base font-semibold text-gold sm:text-xl">{tagline}</p>
             </Reveal>
           )}
           {text && (
             <Reveal delay={0.16}>
-              <p className="max-w-2xl text-[17px] text-pretty lg:text-lg">{text}</p>
+              <p className="max-w-2xl text-base text-pretty sm:text-[17px] lg:text-lg">{text}</p>
             </Reveal>
           )}
           {bullets && (
             <Reveal delay={0.2}>
               <ul className="flex flex-col gap-2.5">
                 {bullets.map((b) => (
-                  <li key={b} className="flex items-start gap-2.5 text-[15px] text-white/85">
+                  <li
+                    key={b}
+                    className="flex items-start gap-2.5 text-sm text-white/85 sm:text-[15px]"
+                  >
                     <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-orange" />
                     {b}
                   </li>
@@ -162,9 +165,9 @@ export function StatStrip({ stats }: { stats: { value: string; label: string }[]
     <div className="relative z-10 -mt-px border-b border-border bg-white">
       <Container className="grid grid-cols-2 divide-border lg:grid-cols-4 lg:divide-x">
         {stats.map((s) => (
-          <div key={s.label} className="flex flex-col gap-0.5 px-2 py-6 sm:px-6">
-            <span className="text-2xl font-bold text-navy sm:text-[28px]">{s.value}</span>
-            <span className="text-sm text-muted-foreground">{s.label}</span>
+          <div key={s.label} className="flex flex-col gap-0.5 px-2 py-4 sm:px-6 sm:py-6">
+            <span className="text-[22px] font-bold text-navy sm:text-[28px]">{s.value}</span>
+            <span className="text-[13px] text-muted-foreground sm:text-sm">{s.label}</span>
           </div>
         ))}
       </Container>

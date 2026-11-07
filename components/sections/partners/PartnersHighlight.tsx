@@ -25,11 +25,11 @@ export function PartnersHighlight() {
               <Eyebrow>Our partner ecosystem</Eyebrow>
               <h2
                 id="ecosystem-heading"
-                className="text-[28px] font-bold text-balance sm:text-[34px] lg:text-[40px]"
+                className="text-[26px] font-bold text-balance sm:text-[34px] lg:text-[40px]"
               >
                 Institutions &amp; organisations <Accent>we work with.</Accent>
               </h2>
-              <p className="max-w-xl text-[17px] text-pretty text-muted-foreground">
+              <p className="max-w-xl text-base text-pretty text-muted-foreground sm:text-[17px]">
                 From IITs and global universities to technology, finance and industry leaders — one
                 connected network behind every Zenvogo programme.
               </p>
@@ -37,7 +37,7 @@ export function PartnersHighlight() {
 
             <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               <li className="dark-section flex flex-col justify-between gap-3 rounded-2xl bg-navy p-4 text-white">
-                <span className="font-display text-[32px] leading-none font-extrabold">
+                <span className="font-display text-[28px] leading-none font-extrabold sm:text-[32px]">
                   {partners.length}
                 </span>
                 <span className="text-sm font-semibold text-white/80">Partners in total</span>
@@ -51,7 +51,7 @@ export function PartnersHighlight() {
                     className="flex flex-col justify-between gap-3 rounded-2xl border border-border/70 bg-section/60 p-4"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-display text-[28px] leading-none font-extrabold text-navy">
+                      <span className="font-display text-2xl leading-none font-extrabold text-navy sm:text-[28px]">
                         {count}
                       </span>
                       <span

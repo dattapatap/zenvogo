@@ -21,18 +21,18 @@ export function CaseStudySection() {
 
   return (
     <Section tone="light" className="overflow-hidden">
-      <Container className="flex flex-col gap-12 lg:gap-16">
+      <Container className="flex flex-col gap-10 sm:gap-12 lg:gap-16">
         <div className="grid items-center gap-8 lg:grid-cols-[1.15fr_1fr] lg:gap-14">
           <Reveal className="flex flex-col gap-5">
             <Eyebrow>{`Case study · ${caseStudy.sector}`}</Eyebrow>
-            <h2 className="text-[29px] font-bold text-balance sm:text-[34px] lg:text-[40px]">
+            <h2 className="text-[26px] font-bold text-balance sm:text-[34px] lg:text-[40px]">
               Designing a programme for the <Accent>builder community.</Accent>
             </h2>
-            <p className="max-w-xl text-[17px] text-pretty text-muted-foreground lg:text-lg">
+            <p className="max-w-xl text-base text-pretty text-muted-foreground sm:text-[17px] lg:text-lg">
               {caseStudy.intro} Here&apos;s how we took a sector-wide challenge in real estate and
               construction from first conversation to a certified programme.
             </p>
-            <div className="flex flex-wrap gap-3 pt-1">
+            <div className="btn-group pt-1">
               <Button href="/contact?type=industry" arrow>
                 Design One for Your Industry
               </Button>
@@ -118,7 +118,7 @@ export function CaseStudySection() {
                   as="li"
                   key={s.title}
                   delay={i * 0.1}
-                  className="relative flex gap-5 lg:flex-col lg:items-center lg:gap-0 lg:text-center"
+                  className="relative flex gap-4 sm:gap-5 lg:flex-col lg:items-center lg:gap-0 lg:text-center"
                 >
                   <span className="relative z-10 grid size-14 shrink-0 place-items-center rounded-2xl border-4 border-section bg-white text-blue shadow-[0_10px_24px_-10px_rgb(8_29_72/0.35)]">
                     <Icon aria-hidden className="size-6" strokeWidth={1.75} />
@@ -126,8 +126,8 @@ export function CaseStudySection() {
                       {i + 1}
                     </span>
                   </span>
-                  <div className="flex-1 card p-5 lg:mt-5 lg:w-full">
-                    <h3 className="text-lg font-semibold">{s.title}</h3>
+                  <div className="flex-1 card p-4 sm:p-5 lg:mt-5 lg:w-full">
+                    <h3 className="text-base font-semibold sm:text-lg">{s.title}</h3>
                     <p className="mt-1.5 text-sm text-muted-foreground">{s.text}</p>
                   </div>
                 </Reveal>

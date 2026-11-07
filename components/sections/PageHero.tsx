@@ -37,7 +37,7 @@ export function PageHero({
   return (
     <section
       className={cn(
-        "dark-section relative isolate overflow-hidden bg-navy py-16 text-white/75 sm:py-20 lg:py-28",
+        "dark-section relative isolate overflow-hidden bg-navy py-12 text-white/75 sm:py-20 lg:py-28",
         className,
       )}
     >
@@ -87,12 +87,14 @@ export function PageHero({
             </nav>
           </Reveal>
         )}
-        <Reveal className="flex max-w-3xl flex-col gap-5">
+        <Reveal className="flex max-w-3xl flex-col gap-4 sm:gap-5">
           <Eyebrow tone="dark">{eyebrow}</Eyebrow>
-          <h1 className="text-[34px] font-bold text-balance sm:text-[42px] lg:text-[52px]">
+          <h1 className="text-[30px] font-bold text-balance sm:text-[42px] lg:text-[52px]">
             {title}
           </h1>
-          {text && <p className="max-w-2xl text-[17px] text-pretty lg:text-lg">{text}</p>}
+          {text && (
+            <p className="max-w-2xl text-base text-pretty sm:text-[17px] lg:text-lg">{text}</p>
+          )}
           {children}
         </Reveal>
       </Container>

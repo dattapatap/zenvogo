@@ -21,17 +21,17 @@ export function SectionHeading({
   return (
     <Reveal
       className={cn(
-        "flex max-w-3xl flex-col gap-4",
+        "flex max-w-3xl flex-col gap-3 sm:gap-4",
         align === "center" && "mx-auto items-center text-center",
         className,
       )}
     >
       {eyebrow && <Eyebrow tone={tone}>{eyebrow}</Eyebrow>}
-      <h2 className="text-[29px] font-bold text-balance sm:text-[34px] lg:text-[38px]">{title}</h2>
+      <h2 className="text-[26px] font-bold text-balance sm:text-[34px] lg:text-[38px]">{title}</h2>
       {text && (
         <p
           className={cn(
-            "text-[17px] text-pretty lg:text-lg",
+            "text-base text-pretty sm:text-[17px] lg:text-lg",
             tone === "dark" ? "text-white/70" : "text-muted-foreground",
           )}
         >

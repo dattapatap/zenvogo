@@ -42,7 +42,7 @@ export default function ContactPage() {
       />
 
       <Section tone="light">
-        <Container className="grid gap-10 lg:grid-cols-[1fr_1.5fr]">
+        <Container className="grid gap-8 sm:gap-10 lg:grid-cols-[1fr_1.5fr]">
           <div className="flex flex-col gap-6">
             <Reveal className="flex flex-col gap-4">
               {reasons.map(({ icon: I, title, text }) => (
@@ -58,7 +58,10 @@ export default function ContactPage() {
               ))}
             </Reveal>
 
-            <Reveal delay={0.1} className="dark-section rounded-2xl bg-navy p-7 text-white/80">
+            <Reveal
+              delay={0.1}
+              className="dark-section rounded-2xl bg-navy p-6 text-white/80 sm:p-7"
+            >
               <h2 className="text-lg font-semibold">Reach us directly</h2>
               <ul className="mt-5 flex flex-col gap-4 text-sm">
                 <li>

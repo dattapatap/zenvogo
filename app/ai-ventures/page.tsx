@@ -31,7 +31,7 @@ export default function AiVenturesPage() {
         text="We incubate, nurture and help fund the next generation of AI startups — connecting founders with mentors, industry partners and investors."
         scene={<AIVentureScene />}
       >
-        <div className="flex flex-wrap gap-3">
+        <div className="btn-group">
           <Button href="/contact?type=startup" arrow>
             Apply as a Startup
           </Button>
@@ -50,9 +50,9 @@ export default function AiVenturesPage() {
           />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {aiVentures.offerings.map((o, i) => (
-              <Reveal key={o.title} delay={i * 0.06} className="card-hover card p-7">
+              <Reveal key={o.title} delay={i * 0.06} className="card-hover card p-6 sm:p-7">
                 <IconBadge name={o.icon} tone={i % 2 ? "orange" : "blue"} />
-                <h3 className="mt-5 text-xl font-semibold">{o.title}</h3>
+                <h3 className="mt-5 text-lg font-semibold sm:text-xl">{o.title}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{o.text}</p>
               </Reveal>
             ))}

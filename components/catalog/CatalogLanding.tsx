@@ -184,7 +184,7 @@ export function CatalogLanding({ kind }: { kind: ProgrammeKind }) {
                 <Reveal key={cat.slug} delay={i * 0.05}>
                   <Link
                     href={`${label.base}?category=${cat.slug}#all`}
-                    className="group flex h-full items-start gap-4 rounded-2xl border border-border bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-blue/30 hover:shadow-[0_20px_40px_-24px_rgb(8_29_72/0.35)]"
+                    className="group flex h-full items-start gap-4 rounded-2xl border border-border bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-blue/30 hover:shadow-[0_20px_40px_-24px_rgb(8_29_72/0.35)] sm:p-6"
                   >
                     <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-blue/10 text-blue transition-colors group-hover:bg-orange group-hover:text-white">
                       <Icon className="size-6" strokeWidth={1.75} aria-hidden />
@@ -257,13 +257,13 @@ export function CatalogLanding({ kind }: { kind: ProgrammeKind }) {
             ))}
             <Reveal
               delay={0.16}
-              className="dark-section flex flex-col justify-between gap-6 rounded-2xl bg-navy p-8 text-white/75"
+              className="dark-section flex flex-col justify-between gap-6 rounded-2xl bg-navy p-6 text-white/75 sm:p-8"
             >
               <div className="flex flex-col gap-4">
                 <span className="grid size-12 place-items-center rounded-xl bg-white/10 text-gold">
                   <Sparkles className="size-6" />
                 </span>
-                <p className="text-xl font-bold text-white">
+                <p className="text-lg font-bold text-white sm:text-xl">
                   Other Academic & Institutional Collaborations
                 </p>
                 <p>{programmesIntro.otherCollaborations}</p>
@@ -289,16 +289,16 @@ export function CatalogLanding({ kind }: { kind: ProgrammeKind }) {
                 className="object-cover"
               />
             </div>
-            <div className="flex flex-col justify-center gap-5 p-8 sm:p-12">
+            <div className="flex flex-col justify-center gap-4 p-6 sm:gap-5 sm:p-12">
               <span className="w-fit rounded-full bg-orange/10 px-3 py-1 text-xs font-semibold tracking-wider text-orange uppercase">
                 Coming soon
               </span>
-              <h2 className="text-[28px] font-bold sm:text-[34px]">
+              <h2 className="text-[26px] font-bold sm:text-[34px]">
                 {programmesIntro.comingSoon.title}
               </h2>
               <p className="text-muted-foreground">{programmesIntro.comingSoon.text}</p>
               <p className="text-muted-foreground">{programmesIntro.comingSoon.text2}</p>
-              <div className="flex flex-wrap gap-3">
+              <div className="btn-group">
                 <Button href="#apply" arrow>
                   Register Interest
                 </Button>
@@ -321,8 +321,8 @@ export function CatalogLanding({ kind }: { kind: ProgrammeKind }) {
           />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {reasons.map((r, i) => (
-              <Reveal key={r.title} delay={i * 0.05} className="card p-7">
-                <span className="text-3xl font-bold text-orange/80">
+              <Reveal key={r.title} delay={i * 0.05} className="card p-6 sm:p-7">
+                <span className="text-2xl font-bold text-orange/80 sm:text-3xl">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3 className="mt-3 text-lg font-semibold">{r.title}</h3>

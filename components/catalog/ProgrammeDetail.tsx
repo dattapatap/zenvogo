@@ -155,7 +155,7 @@ export function ProgrammeDetail({ programme: p }: { programme: Programme }) {
               </div>
             ))}
           </dl>
-          <div className="flex flex-wrap gap-3">
+          <div className="btn-group">
             <Button href="#apply" arrow>
               Register Interest
             </Button>
@@ -177,13 +177,15 @@ export function ProgrammeDetail({ programme: p }: { programme: Programme }) {
               title={`About this ${label.singular.toLowerCase()}`}
             />
             <Reveal>
-              <p className="text-lg text-muted-foreground">{p.overview}</p>
+              <p className="text-base text-muted-foreground sm:text-lg">{p.overview}</p>
             </Reveal>
             <Reveal className="rounded-2xl bg-section p-6 sm:p-8">
-              <p className="mb-4 text-lg font-semibold text-navy">What you&apos;ll learn</p>
+              <p className="mb-4 text-base font-semibold text-navy sm:text-lg">
+                What you&apos;ll learn
+              </p>
               <ul className="grid gap-3 sm:grid-cols-2">
                 {p.outcomes.map((o) => (
-                  <li key={o} className="flex items-start gap-2.5 text-[15px]">
+                  <li key={o} className="flex items-start gap-2.5 text-sm sm:text-[15px]">
                     <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-orange" />
                     {o}
                   </li>
@@ -366,7 +368,7 @@ export function ProgrammeDetail({ programme: p }: { programme: Programme }) {
                   <Reveal
                     key={f.title}
                     delay={i * 0.06}
-                    className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-border bg-section/50 p-8 text-center"
+                    className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-border bg-section/50 p-6 text-center sm:p-8"
                   >
                     <span className="grid size-16 place-items-center rounded-full bg-white text-blue shadow-sm">
                       <Icon className="size-7" strokeWidth={1.6} />
@@ -423,10 +425,10 @@ export function ProgrammeDetail({ programme: p }: { programme: Programme }) {
             <span className="w-fit rounded-full bg-orange px-3 py-1 text-xs font-semibold text-white">
               Apply now
             </span>
-            <h2 className="text-[30px] font-bold text-white sm:text-[40px]">
+            <h2 className="text-[26px] font-bold text-white sm:text-[40px]">
               Be first in line when enrolment opens
             </h2>
-            <p className="max-w-xl text-white/70 sm:text-lg">
+            <p className="max-w-xl text-[15px] text-white/70 sm:text-lg">
               Register your interest in the {p.title}. We&apos;ll share the final curriculum, dates
               and fees as soon as they&apos;re announced.
             </p>
@@ -472,7 +474,6 @@ export function ProgrammeDetail({ programme: p }: { programme: Programme }) {
         </Container>
       </Section>
 
-      <div className="h-20 lg:hidden" aria-hidden />
       <MobileApplyBar title={p.title} cta={cta} />
     </>
   );

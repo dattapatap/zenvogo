@@ -42,10 +42,10 @@ export function ProgrammeListing({
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6 sm:gap-8">
       {/* ── Category Badges / Pill Selection Bar ── */}
       <div className="flex flex-col gap-3">
-        <div className="no-scrollbar flex flex-wrap items-center gap-2 sm:gap-2.5">
+        <div className="-mx-5 no-scrollbar flex items-center gap-2 overflow-x-auto px-5 pb-1 *:shrink-0 *:whitespace-nowrap sm:mx-0 sm:flex-wrap sm:gap-2.5 sm:overflow-visible sm:px-0 sm:pb-0">
           <button
             type="button"
             onClick={() => setCategory("all")}
@@ -112,7 +112,7 @@ export function ProgrammeListing({
       </div>
 
       {/* ── Cards Grid ── */}
-      <motion.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <motion.div layout className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
           {shown.map((p) => (
             <motion.div
@@ -130,7 +130,7 @@ export function ProgrammeListing({
       </motion.div>
 
       {filtered.length === 0 && (
-        <div className="rounded-2xl border border-dashed border-border bg-white/60 p-12 text-center text-muted-foreground">
+        <div className="rounded-2xl border border-dashed border-border bg-white/60 p-8 text-center text-muted-foreground sm:p-12">
           <p className="text-base font-semibold text-navy">No {label.plural.toLowerCase()} found</p>
           <p className="mt-1 text-sm">Please select another category above.</p>
         </div>

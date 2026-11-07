@@ -75,7 +75,7 @@ export default function ImmersionProgrammesPage() {
               </Link>
             ))}
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="btn-group">
             <Button href="#destinations" arrow>
               Explore Destinations
             </Button>
@@ -131,7 +131,7 @@ export default function ImmersionProgrammesPage() {
                 {approach.map((a) => {
                   const Icon = icons[a.icon];
                   return (
-                    <li key={a.text} className="flex items-start gap-3 text-[15px]">
+                    <li key={a.text} className="flex items-start gap-3 text-sm sm:text-[15px]">
                       <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-orange/10 text-orange">
                         <Icon className="size-[18px]" strokeWidth={1.75} />
                       </span>

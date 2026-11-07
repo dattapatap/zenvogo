@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* Responsive / mobile rules — see app/responsive.css */
+@import "./responsive.css";
 
 /* ───────────────────────── Brand tokens ─────────────────────────
    Navy builds trust, blue drives interaction, orange is the accent.

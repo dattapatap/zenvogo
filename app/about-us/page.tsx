@@ -39,7 +39,7 @@ export default function AboutPage() {
                 </>
               }
             />
-            <Reveal className="flex flex-col gap-5 text-lg text-muted-foreground">
+            <Reveal className="flex flex-col gap-4 text-base text-muted-foreground sm:gap-5 sm:text-lg">
               <p>
                 Zenvogo was started by a team of {siteConfig.founders}, joined by professionals who
                 have helped build some of India&apos;s best-known learning companies. We&apos;ve
@@ -152,7 +152,7 @@ export default function AboutPage() {
               }
               text="Most learning platforms sell what institutions already offer. Zenvogo starts with the industry — its people, its challenges, its future — and builds programmes around them with leading academic experts and institutions."
             />
-            <Reveal className="flex flex-wrap gap-3">
+            <Reveal className="btn-group">
               <Button href="/approach" variant="secondary" arrow>
                 Our Approach
               </Button>
@@ -174,7 +174,7 @@ export default function AboutPage() {
               delay={0.15}
               className="relative -mt-16 grid overflow-hidden card sm:mx-8 sm:grid-cols-2"
             >
-              <div className="p-7">
+              <div className="p-6 sm:p-7">
                 <p className="text-xs font-semibold tracking-[0.14em] text-muted-foreground uppercase">
                   Typical platforms
                 </p>
@@ -187,7 +187,7 @@ export default function AboutPage() {
                   ))}
                 </ul>
               </div>
-              <div className="dark-section bg-navy p-7 text-white/85">
+              <div className="dark-section bg-navy p-6 text-white/85 sm:p-7">
                 <p className="text-xs font-semibold tracking-[0.14em] text-gold uppercase">
                   The Zenvogo way
                 </p>
@@ -207,11 +207,11 @@ export default function AboutPage() {
 
       <Section>
         <Container className="grid gap-6 md:grid-cols-2">
-          <Reveal className="card p-8 sm:p-10">
+          <Reveal className="card p-6 sm:p-10">
             <span className="grid size-12 place-items-center rounded-xl bg-blue/10 text-blue">
               <Eye className="size-6" />
             </span>
-            <h2 className="mt-5 text-[26px] font-bold">Our vision</h2>
+            <h2 className="mt-5 text-[22px] font-bold sm:text-[26px]">Our vision</h2>
             <p className="mt-3 text-muted-foreground">
               A world where every professional programme is designed around real industry needs —
               connecting people, institutions and ideas across borders.
@@ -219,12 +219,12 @@ export default function AboutPage() {
           </Reveal>
           <Reveal
             delay={0.08}
-            className="dark-section rounded-2xl bg-navy p-8 text-white/75 sm:p-10"
+            className="dark-section rounded-2xl bg-navy p-6 text-white/75 sm:p-10"
           >
             <span className="grid size-12 place-items-center rounded-xl bg-orange/15 text-orange">
               <Flag className="size-6" />
             </span>
-            <h2 className="mt-5 text-[26px] font-bold">Our mission</h2>
+            <h2 className="mt-5 text-[22px] font-bold sm:text-[26px]">Our mission</h2>
             <p className="mt-3">
               To bring industries, academic experts and leading institutions together to create
               learning that solves real business challenges — and to back the AI ventures building
@@ -239,7 +239,7 @@ export default function AboutPage() {
           <SectionHeading align="center" eyebrow="What drives us" title="Our values" />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {values.map((v, i) => (
-              <Reveal key={v.title} delay={i * 0.06} className="card-hover card p-7">
+              <Reveal key={v.title} delay={i * 0.06} className="card-hover card p-6 sm:p-7">
                 <IconBadge name={v.icon} tone={i % 2 ? "orange" : "blue"} />
                 <h3 className="mt-5 text-lg font-semibold">{v.title}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{v.text}</p>
@@ -262,7 +262,7 @@ export default function AboutPage() {
             {teamBackgrounds.map((t) => (
               <div
                 key={t}
-                className="grid h-24 place-items-center panel p-4 text-center font-display text-lg font-bold text-white"
+                className="grid h-20 place-items-center panel p-3 text-center font-display text-base font-bold text-white sm:h-24 sm:p-4 sm:text-lg"
               >
                 {t}
               </div>

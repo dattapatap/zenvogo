@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 const initial: ContactState = { ok: false, message: "" };
 
 const inputCls =
-  "h-11 w-full rounded-lg border border-border bg-white px-3.5 text-[15px] text-foreground outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-blue focus:ring-3 focus:ring-blue/15";
+  "h-11 w-full rounded-lg border border-border bg-white px-3.5 text-base text-foreground sm:text-[15px] outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-blue focus:ring-3 focus:ring-blue/15";
 
 type Props = {
   /** What the enquiry is about — sent with the form. */
@@ -42,7 +42,7 @@ export function EnquiryForm({
         initial={{ opacity: 0, scale: 0.97 }}
         animate={{ opacity: 1, scale: 1 }}
         className={cn(
-          "flex flex-col items-center gap-3 rounded-2xl bg-white p-8 text-center shadow-[0_30px_60px_-30px_rgb(8_29_72/0.5)]",
+          "flex flex-col items-center gap-3 rounded-2xl bg-white p-6 text-center shadow-[0_30px_60px_-30px_rgb(8_29_72/0.5)] sm:p-8",
           className,
         )}
         role="status"
@@ -59,12 +59,12 @@ export function EnquiryForm({
       action={action}
       noValidate
       className={cn(
-        "flex flex-col gap-4 rounded-2xl bg-white p-6 text-foreground shadow-[0_30px_60px_-30px_rgb(8_29_72/0.5)] sm:p-7",
+        "flex flex-col gap-4 rounded-2xl bg-white p-5 text-foreground shadow-[0_30px_60px_-30px_rgb(8_29_72/0.5)] sm:p-7",
         className,
       )}
     >
       <div>
-        <p className="text-xl font-bold text-navy">{title}</p>
+        <p className="text-lg font-bold text-navy sm:text-xl">{title}</p>
         <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
       </div>
       <input type="hidden" name="interest" value={interest} />
@@ -113,7 +113,7 @@ export function EnquiryForm({
       <button
         type="submit"
         disabled={pending}
-        className="group inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-orange px-6 font-semibold text-white shadow-[0_8px_24px_-8px_rgb(255_104_24/0.6)] transition-all hover:-translate-y-0.5 hover:bg-[#ec5a0c] disabled:opacity-60"
+        className="group inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-orange px-6 text-[15px] font-semibold text-white shadow-[0_8px_24px_-8px_rgb(255_104_24/0.6)] transition-all hover:-translate-y-0.5 hover:bg-[#ec5a0c] disabled:opacity-60 sm:h-12"
       >
         {pending ? (
           <Loader2 className="size-4 animate-spin" />

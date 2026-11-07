@@ -26,7 +26,7 @@ export default function HomePage() {
             <Reveal
               key={c.title}
               delay={i * 0.06}
-              className="flex items-start gap-4 border-border p-6 not-last:border-b sm:odd:border-r lg:border-b-0 lg:p-7 lg:not-last:border-r"
+              className="flex items-start gap-4 border-border p-5 not-last:border-b sm:p-6 sm:odd:border-r lg:border-b-0 lg:p-7 lg:not-last:border-r"
             >
               <IconBadge name={c.icon} className="size-12" />
               <div>
@@ -46,7 +46,7 @@ export default function HomePage() {
       {/* 04 · Approach */}
       <Section tone="navy" className="overflow-hidden">
         <div aria-hidden className="absolute inset-0 dot-grid-light" />
-        <Container className="relative flex flex-col gap-12 sm:gap-14">
+        <Container className="relative flex flex-col gap-10 sm:gap-14">
           <SectionHeading
             tone="dark"
             align="center"
@@ -59,7 +59,7 @@ export default function HomePage() {
           />
           <ApproachTimeline steps={approach} />
           <Reveal className="flex justify-center">
-            <Button href="/approach" variant="outline-light" arrow>
+            <Button href="/approach" variant="outline-light" arrow className="w-full sm:w-auto">
               See How We Work
             </Button>
           </Reveal>
@@ -104,12 +104,12 @@ export default function HomePage() {
               ))}
             </div>
             <Reveal>
-              <Button href="/ai-ventures" arrow>
+              <Button href="/ai-ventures" arrow className="w-full sm:w-auto">
                 Explore AI Ventures
               </Button>
             </Reveal>
           </div>
-          <div className="relative flex h-72 items-center justify-center sm:h-88 lg:h-[26rem]">
+          <div className="relative flex h-60 items-center justify-center sm:h-88 lg:h-[26rem]">
             <AIVentureScene />
           </div>
         </Container>

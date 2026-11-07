@@ -85,7 +85,7 @@ export function CTASection({
             <Reveal delay={0.16}>
               <p className="max-w-xl text-sm text-white/75 sm:text-base">{text}</p>
             </Reveal>
-            <Reveal delay={0.24} className="flex flex-wrap gap-3 pt-1">
+            <Reveal delay={0.24} className="btn-group pt-1">
               <Button href={primary.href} arrow>
                 {primary.label}
               </Button>
@@ -99,7 +99,7 @@ export function CTASection({
           </div>
 
           {/* ── 3D scene with a glowing ring behind it ── */}
-          <div className="relative flex h-64 items-center justify-center sm:h-72 lg:h-auto lg:min-h-[22rem]">
+          <div className="relative flex h-56 items-center justify-center sm:h-72 lg:h-auto lg:min-h-[22rem]">
             <div
               aria-hidden
               className="absolute top-1/2 left-1/2 aspect-square w-[68%] max-w-[20rem] -translate-x-1/2 -translate-y-1/2"
