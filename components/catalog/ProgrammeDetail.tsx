@@ -34,6 +34,8 @@ import { DetailNav, MobileApplyBar } from "./DetailNav";
 import { EnquiryForm } from "./EnquiryForm";
 import { InstitutionMark, ProgrammeCard } from "./ProgrammeCard";
 import { HeroBadge, SplitHero } from "./SplitHero";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { courseSchema, faqSchema } from "@/lib/seo";
 
 const tabs = [
   { id: "overview", label: "Overview" },
@@ -111,6 +113,7 @@ export function ProgrammeDetail({ programme: p }: { programme: Programme }) {
 
   return (
     <>
+      <JsonLd data={courseSchema(p)} />
       <SplitHero
         crumbs={[
           { label: `Our ${label.plural}`, href: label.base },
@@ -410,6 +413,7 @@ export function ProgrammeDetail({ programme: p }: { programme: Programme }) {
       <Section id="faqs" className="scroll-mt-36">
         <Container className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
           <SectionHeading eyebrow="FAQs" title="Frequently asked questions" />
+          <JsonLd data={faqSchema(programmeFaqs(p))} />
           <Accordion items={programmeFaqs(p)} />
         </Container>
       </Section>

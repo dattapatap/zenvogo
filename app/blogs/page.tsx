@@ -10,8 +10,9 @@ import { PageHero } from "@/components/sections/PageHero";
 import { CTASection } from "@/components/sections/CTASection";
 
 export const metadata: Metadata = {
-  title: "Blogs",
+  title: "Blogs & Insights on Executive Education",
   description: "Blogs on industry-led learning, leadership development and AI ventures.",
+  alternates: { canonical: "/blogs" },
 };
 
 export default function BlogsPage() {

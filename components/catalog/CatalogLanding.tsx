@@ -7,6 +7,7 @@ import {
   institutions,
   kindLabel,
   programmesIntro,
+  programmeHref,
   programmesOf,
   type ProgrammeKind,
 } from "@/lib/data/programmes";
@@ -22,6 +23,8 @@ import { EnquiryForm } from "./EnquiryForm";
 import { InstitutionMark, ProgrammeCard } from "./ProgrammeCard";
 import { ProgrammeListing } from "./ProgrammeListing";
 import { HeroBadge, SplitHero, StatStrip } from "./SplitHero";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { faqSchema, itemListSchema } from "@/lib/seo";
 
 export const learnerRoles = [
   "Working professional",
@@ -113,6 +116,12 @@ export function CatalogLanding({ kind }: { kind: ProgrammeKind }) {
 
   return (
     <>
+      <JsonLd
+        data={itemListSchema(
+          label.plural,
+          items.map((p) => ({ name: p.title, href: programmeHref(p) })),
+        )}
+      />
       <SplitHero
         crumbs={[{ label: `Our ${label.plural}` }]}
         badges={
@@ -345,6 +354,7 @@ export function CatalogLanding({ kind }: { kind: ProgrammeKind }) {
               More FAQs <ArrowRight className="size-4" />
             </Link>
           </div>
+          <JsonLd data={faqSchema(faqs)} />
           <Accordion items={faqs} />
         </Container>
       </Section>

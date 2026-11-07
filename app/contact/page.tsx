@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   title: "Contact Us",
   description:
     "Discuss your learning needs, partner with us as an institution, or apply to Zenvogo AI Ventures.",
+  alternates: { canonical: "/contact" },
 };
 
 const reasons = [

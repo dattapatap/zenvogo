@@ -16,6 +16,7 @@ import { CTASection } from "@/components/sections/CTASection";
 export const metadata: Metadata = {
   title: "About Us",
   description: `The vision, mission and team behind ${siteConfig.name}, a part of ${siteConfig.parent}.`,
+  alternates: { canonical: "/about-us" },
 };
 
 export default function AboutPage() {

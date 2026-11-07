@@ -12,6 +12,7 @@ import type { IconName } from "@/lib/icons";
 export const metadata: Metadata = {
   title: "Careers",
   description: `Join ${siteConfig.name} and help build industry-led learning and AI ventures.`,
+  alternates: { canonical: "/careers" },
 };
 
 const perks: { icon: IconName; title: string; text: string }[] = [

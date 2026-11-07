@@ -446,7 +446,7 @@ function SwipeCards({ items }: { items: Programme[] }) {
               onClick={() => goTo(i)}
               aria-label={`Show card ${i + 1} of ${items.length}`}
               aria-current={index === i ? "true" : undefined}
-              className="grid h-6 place-items-center px-1"
+              className="grid size-6 place-items-center"
             >
               <span
                 className={cn(
@@ -502,7 +502,7 @@ function CompactCard({ programme: p }: { programme: Programme }) {
           src={cat.image}
           alt=""
           fill
-          sizes="33vw"
+          sizes="(min-width: 1400px) 440px, 30vw"
           className="object-cover transition-transform duration-700 group-hover:scale-105"
         />
         <span

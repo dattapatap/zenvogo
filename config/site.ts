@@ -12,7 +12,17 @@ export const siteConfig = {
   subTagline: "Industry-led learning. Global expertise. Future-ready leadership.",
   description:
     "Zenvogo designs industry-led learning programmes with leading academic institutions — built around real business challenges — and helps AI startups incubate, grow and raise funding.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  /**
+   * Public site URL, used for canonical links, sitemap, robots, Open Graph and structured data.
+   * Set NEXT_PUBLIC_SITE_URL to the final domain. Without it, Vercel builds fall back to the
+   * project's production domain (never localhost, which search engines can't reach).
+   */
+  url: (
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : "http://localhost:3000")
+  ).replace(/\/$/, ""),
 
   /** Parent company. */
   parent: "Zen Voyage Travel Solutions",

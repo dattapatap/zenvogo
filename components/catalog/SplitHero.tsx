@@ -4,6 +4,8 @@ import { CheckCircle2, ChevronRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/lib/seo";
 
 type Props = {
   crumbs: { label: string; href?: string }[];
@@ -36,7 +38,15 @@ export function SplitHero({
     <section className="dark-section relative isolate overflow-hidden bg-navy text-white/75">
       {image ? (
         <>
-          <Image src={image} alt="" fill priority sizes="100vw" className="-z-20 object-cover" />
+          <Image
+            src={image}
+            alt=""
+            fill
+            preload
+            quality={60}
+            sizes="100vw"
+            className="-z-20 object-cover"
+          />
           <div
             aria-hidden
             className="absolute inset-0 -z-10 bg-[linear-gradient(100deg,rgb(7_26_66/0.97)_0%,rgb(7_26_66/0.9)_45%,rgb(7_26_66/0.55)_100%)]"
@@ -60,6 +70,7 @@ export function SplitHero({
         className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-orange/60 to-transparent"
       />
 
+      <JsonLd data={breadcrumbSchema(crumbs)} />
       <Container
         className={cn(
           "grid gap-8 py-10 sm:gap-10 sm:py-16 lg:py-20",

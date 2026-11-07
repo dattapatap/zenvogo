@@ -50,8 +50,8 @@ export default function AIVentureScene({ className }: { className?: string }) {
               src="/images/3d/ai-ventures.png"
               alt="Zenvogo AI Ventures: Idea Incubation, Funding & Growth"
               fill
-              priority
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 650px"
+              quality={60}
+              sizes="(max-width: 768px) 90vw, (max-width: 1200px) 45vw, 580px"
               className="object-contain"
             />
           </div>

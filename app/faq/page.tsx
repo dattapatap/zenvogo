@@ -8,9 +8,10 @@ import { PageHero } from "@/components/sections/PageHero";
 import { CTASection } from "@/components/sections/CTASection";
 
 export const metadata: Metadata = {
-  title: "FAQ",
+  title: "Frequently Asked Questions",
   description:
     "Answers to common questions about Zenvogo's programmes, partnerships and AI Ventures.",
+  alternates: { canonical: "/faq" },
 };
 
 export default function FaqPage() {

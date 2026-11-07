@@ -30,6 +30,8 @@ import {
   institutionRoles,
 } from "@/components/catalog/ImmersionBlocks";
 import { HeroBadge, SplitHero } from "@/components/catalog/SplitHero";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { faqSchema, immersionSchema } from "@/lib/seo";
 
 /** Icons for learning themes, matched by keyword. */
 const themeIcon = (t: string): IconName => {
@@ -71,6 +73,7 @@ export async function generateMetadata(
     ? {
         title: `${d.name} Immersion Programme`,
         description: d.text,
+        alternates: { canonical: `/immersion-programs/${d.slug}` },
         openGraph: { images: [d.image] },
       }
     : {};
@@ -87,6 +90,7 @@ export default async function DestinationPage(props: PageProps<"/immersion-progr
 
   return (
     <>
+      <JsonLd data={immersionSchema(d)} />
       <SplitHero
         image={d.image}
         crumbs={[{ label: "Immersion Programs", href: "/immersion-programs" }, { label: d.name }]}
@@ -236,6 +240,7 @@ export default async function DestinationPage(props: PageProps<"/immersion-progr
       <Section id="faqs" tone="light" className="scroll-mt-36">
         <Container className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
           <SectionHeading eyebrow="FAQs" title={`${d.name} immersion FAQs`} />
+          <JsonLd data={faqSchema(immersionFaqs(d))} />
           <Accordion items={immersionFaqs(d)} />
         </Container>
       </Section>

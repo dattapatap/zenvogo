@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   title: "Our Approach",
   description:
     "How Zenvogo turns real industry challenges into curated programmes delivered by leading institutions.",
+  alternates: { canonical: "/approach" },
 };
 
 export default function ApproachPage() {

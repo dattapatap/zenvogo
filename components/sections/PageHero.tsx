@@ -5,6 +5,8 @@ import { Eyebrow } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { WaveField } from "@/components/three";
 import { cn } from "@/lib/utils";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/lib/seo";
 
 type Props = {
   eyebrow: string;
@@ -61,6 +63,7 @@ export function PageHero({
         className="absolute -top-32 -left-32 -z-10 size-[28rem] rounded-full bg-blue/30 blur-[120px]"
       />
 
+      {crumbs && <JsonLd data={breadcrumbSchema(crumbs)} />}
       <Container>
         {crumbs && (
           <Reveal y={8}>

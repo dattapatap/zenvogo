@@ -29,15 +29,27 @@ import {
   institutionRoles,
 } from "@/components/catalog/ImmersionBlocks";
 import { HeroBadge, SplitHero, StatStrip } from "@/components/catalog/SplitHero";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { faqSchema, itemListSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Global Immersion Programmes",
   description: immersionIntro.text,
+  alternates: { canonical: "/immersion-programs" },
 };
 
 export default function ImmersionProgrammesPage() {
   return (
     <>
+      <JsonLd
+        data={itemListSchema(
+          "Global Immersion Programmes",
+          destinations.map((d) => ({
+            name: `${d.name} Immersion Programme`,
+            href: `/immersion-programs/${d.slug}`,
+          })),
+        )}
+      />
       <SplitHero
         image="/images/immersion/hero-cohort.webp"
         crumbs={[{ label: "Immersion Programs" }]}
@@ -182,6 +194,7 @@ export default function ImmersionProgrammesPage() {
       <Section tone="light">
         <Container className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
           <SectionHeading eyebrow="FAQs" title="Frequently asked questions" />
+          <JsonLd data={faqSchema(immersionFaqs())} />
           <Accordion items={immersionFaqs()} />
         </Container>
       </Section>

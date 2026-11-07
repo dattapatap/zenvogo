@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { aiVentures, approach, credentials } from "@/lib/data/content";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
@@ -15,6 +16,12 @@ import { ApproachTimeline } from "@/components/sections/ApproachTimeline";
 import { IndustryShowcase } from "@/components/sections/IndustryShowcase";
 import { CTASection } from "@/components/sections/CTASection";
 import { AIVentureScene } from "@/components/three";
+
+export const metadata: Metadata = {
+  // Search-result title: what Zenvogo offers, not just the tagline (kept under ~60 chars).
+  title: { absolute: "Zenvogo | Industry-Led Executive Programmes & Certifications" },
+  alternates: { canonical: "/" },
+};
 
 export default function HomePage() {
   return (

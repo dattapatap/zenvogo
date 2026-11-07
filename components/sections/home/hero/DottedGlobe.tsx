@@ -10,6 +10,8 @@ const DEG = Math.PI / 180;
 const TILT = 16 * DEG;
 /** One full turn every 90 seconds. */
 const SPEED = (2 * Math.PI) / 90_000;
+/** Redraw cap for the slow rotation (~24 fps). */
+const FRAME_MS = 1000 / 24;
 /** Longitude facing the viewer at rest (India / Middle East / Europe). */
 const FACE_LON = 50;
 
@@ -145,10 +147,12 @@ export function DottedGlobe({ className }: { className?: string }) {
     };
 
     const tick = (now: number) => {
+      frame = requestAnimationFrame(tick);
+      // One turn takes 90s, so 24 fps looks identical to 60 fps at well under half the CPU.
+      if (last && now - last < FRAME_MS) return;
       if (last) angle += (now - last) * SPEED;
       last = now;
       draw();
-      frame = requestAnimationFrame(tick);
     };
     const start = () => {
       if (frame || reduce || !visible) return;

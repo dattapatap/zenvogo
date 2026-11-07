@@ -18,7 +18,7 @@ export function Logo({
     <Image
       src={variant === "light" ? logoLight : logo}
       alt={siteConfig.name}
-      priority={priority}
+      preload={priority}
       sizes="180px"
       className={cn("h-auto w-[150px] lg:w-[168px]", className)}
     />

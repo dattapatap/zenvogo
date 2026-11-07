@@ -7,6 +7,8 @@ import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { PageHero } from "@/components/sections/PageHero";
 import { CTASection } from "@/components/sections/CTASection";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { articleSchema } from "@/lib/seo";
 
 export function generateStaticParams() {
   return insights.map((p) => ({ slug: p.slug }));
@@ -19,6 +21,7 @@ export async function generateMetadata(props: PageProps<"/blogs/[slug]">): Promi
     ? {
         title: post.title,
         description: post.excerpt,
+        alternates: { canonical: `/blogs/${post.slug}` },
         openGraph: { type: "article", publishedTime: post.date },
       }
     : {};
@@ -33,6 +36,7 @@ export default async function InsightPage(props: PageProps<"/blogs/[slug]">) {
 
   return (
     <>
+      <JsonLd data={articleSchema(post)} />
       <PageHero
         eyebrow={post.category}
         crumbs={[{ label: "Blogs", href: "/blogs" }, { label: post.category }]}

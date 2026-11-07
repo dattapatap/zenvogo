@@ -60,7 +60,7 @@ export function ParallaxImage({
           alt={alt}
           fill
           sizes={sizes}
-          priority={priority}
+          preload={priority}
           className={cn("object-cover", imgClassName)}
         />
       </div>

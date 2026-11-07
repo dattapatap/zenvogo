@@ -39,8 +39,8 @@ function HeroBackground() {
         alt=""
         fill
         sizes="100vw"
-        loading="eager"
-        fetchPriority="high"
+        preload
+        quality={60}
         className="object-cover object-center opacity-60"
       />
       {/* Lift the copy side so the headline stays crisp over the waves */}

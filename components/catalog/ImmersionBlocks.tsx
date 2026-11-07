@@ -103,7 +103,13 @@ export function ExperienceSection({
                 i === 1 && "sm:translate-y-6",
               )}
             >
-              <Image src={src} alt="" fill sizes="33vw" className="object-cover" />
+              <Image
+                src={src}
+                alt=""
+                fill
+                sizes="(min-width: 1400px) 440px, 33vw"
+                className="object-cover"
+              />
             </Reveal>
           ))}
         </div>

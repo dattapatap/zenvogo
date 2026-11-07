@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   title: "AI Ventures",
   description:
     "Zenvogo AI Ventures helps AI startups incubate, find mentors, access industry partners and prepare for funding.",
+  alternates: { canonical: "/ai-ventures" },
 };
 
 export default function AiVenturesPage() {

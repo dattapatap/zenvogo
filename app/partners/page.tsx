@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   title: "Partners",
   description:
     "The academic institutions, international universities and technology, financial and industry organisations that design and deliver Zenvogo programmes.",
+  alternates: { canonical: "/partners" },
 };
 
 /** Icons for `academicNetwork.benefits`, in the same order. */

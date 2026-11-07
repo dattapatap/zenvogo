@@ -20,10 +20,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/careers",
     "/contact",
   ];
+  // Priority hints (used by Bing; Google ignores them): home and catalogue pages first.
+  const key = new Set(["", "/programs", "/certifications", "/immersion-programs"]);
   return [
-    ...pages.map((p) => ({ url: `${base}${p}` })),
-    ...programmes.map((p) => ({ url: `${base}${programmeHref(p)}` })),
-    ...destinations.map((d) => ({ url: `${base}/immersion-programs/${d.slug}` })),
-    ...insights.map((p) => ({ url: `${base}/blogs/${p.slug}`, lastModified: p.date })),
+    ...pages.map((p) => ({
+      url: `${base}${p}`,
+      priority: p === "" ? 1 : key.has(p) ? 0.9 : 0.6,
+    })),
+    ...programmes.map((p) => ({ url: `${base}${programmeHref(p)}`, priority: 0.8 })),
+    ...destinations.map((d) => ({
+      url: `${base}/immersion-programs/${d.slug}`,
+      priority: 0.8,
+    })),
+    ...insights.map((p) => ({
+      url: `${base}/blogs/${p.slug}`,
+      lastModified: p.date,
+      priority: 0.6,
+    })),
   ];
 }
