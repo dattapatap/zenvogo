@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { useCenterActive } from "@/hooks/useCenterActive";
 import { categories, kindLabel, programmesOf, type ProgrammeKind } from "@/lib/data/programmes";
 import { icons } from "@/lib/icons";
 import { cn } from "@/lib/utils";
@@ -24,6 +25,7 @@ export function ProgrammeListing({
   const pathname = usePathname();
   const category = params.get("category") ?? "all";
   const [limit, setLimit] = useState(PAGE);
+  const pillRow = useCenterActive<HTMLDivElement>(category);
 
   const all = programmesOf(kind);
   const label = kindLabel[kind];
@@ -45,7 +47,10 @@ export function ProgrammeListing({
     <div className="flex flex-col gap-6 sm:gap-8">
       {/* ── Category Badges / Pill Selection Bar ── */}
       <div className="flex flex-col gap-3">
-        <div className="-mx-5 no-scrollbar flex items-center gap-2 overflow-x-auto px-5 pb-1 *:shrink-0 *:whitespace-nowrap sm:mx-0 sm:flex-wrap sm:gap-2.5 sm:overflow-visible sm:px-0 sm:pb-0">
+        <div
+          ref={pillRow}
+          className="-mx-5 no-scrollbar flex items-center gap-2 overflow-x-auto px-5 pb-1 *:shrink-0 *:whitespace-nowrap sm:mx-0 sm:flex-wrap sm:gap-2.5 sm:overflow-visible sm:px-0 sm:pb-0"
+        >
           <button
             type="button"
             onClick={() => setCategory("all")}

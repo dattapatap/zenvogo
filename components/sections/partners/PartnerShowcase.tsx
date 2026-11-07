@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useCenterActive } from "@/hooks/useCenterActive";
 import { ChevronDown, LayoutGrid } from "lucide-react";
 import { AnimatePresence, MotionConfig, motion } from "motion/react";
 import { icons } from "@/lib/icons";
@@ -23,6 +24,7 @@ const labelOf = Object.fromEntries(partnerCategories.map((c) => [c.id, c.label])
 export function PartnerShowcase() {
   const [filter, setFilter] = useState<Filter>("all");
   const [expanded, setExpanded] = useState(false);
+  const badgeRow = useCenterActive<HTMLDivElement>(filter);
   const active = partnerCategories.find((c) => c.id === filter);
   const full = filter === "all" ? allPartners : partners.filter((p) => p.category === filter);
   const collapsed = filter === "all" && !expanded && full.length > PREVIEW_COUNT;
@@ -43,6 +45,7 @@ export function PartnerShowcase() {
       <div className="flex flex-col gap-8">
         {/* Category badges */}
         <div
+          ref={badgeRow}
           role="group"
           aria-label="Filter partners by category"
           className="-mx-5 no-scrollbar flex gap-2.5 overflow-x-auto px-5 pb-1 sm:mx-0 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0"

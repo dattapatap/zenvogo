@@ -136,7 +136,8 @@ export default async function DestinationPage(props: PageProps<"/immersion-progr
           </dl>
           <div className="btn-group">
             <Button href="#apply" arrow>
-              {immersionCta.button}
+              <span className="sm:hidden">Enquire Now</span>
+              <span className="max-sm:hidden">{immersionCta.button}</span>
             </Button>
             <Button href="#themes" variant="outline-light">
               Learning Themes

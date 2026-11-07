@@ -34,7 +34,8 @@ export function CaseStudySection() {
             </p>
             <div className="btn-group pt-1">
               <Button href="/contact?type=industry" arrow>
-                Design One for Your Industry
+                <span className="sm:hidden">Design a Programme</span>
+                <span className="max-sm:hidden">Design One for Your Industry</span>
               </Button>
               <Button href="/approach" variant="outline" className="bg-white">
                 Our Approach

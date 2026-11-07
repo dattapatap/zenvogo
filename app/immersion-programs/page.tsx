@@ -80,7 +80,8 @@ export default function ImmersionProgrammesPage() {
               Explore Destinations
             </Button>
             <Button href="#apply" variant="outline-light">
-              {immersionCta.button}
+              <span className="sm:hidden">Enquire Now</span>
+              <span className="max-sm:hidden">{immersionCta.button}</span>
             </Button>
           </div>
         </div>

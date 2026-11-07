@@ -350,13 +350,7 @@ function Panel({ id, fill }: { id: TabId; fill?: boolean }) {
           ))}
         </div>
       ) : (
-        <div className="-mx-5 no-scrollbar flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3 lg:gap-6">
-          {items.map((p) => (
-            <div key={p.slug} className="w-[85%] shrink-0 snap-start sm:w-auto">
-              <ProgrammeCard programme={p} />
-            </div>
-          ))}
-        </div>
+        <SwipeCards items={items} />
       )}
 
       <PanelFooter
@@ -389,6 +383,82 @@ function Panel({ id, fill }: { id: TabId; fill?: boolean }) {
         )}
       </PanelFooter>
     </>
+  );
+}
+
+/**
+ * Featured cards: a swipeable row with a hint and position dots below 768px,
+ * a three-column grid from 768px up.
+ */
+function SwipeCards({ items }: { items: Programme[] }) {
+  const row = useRef<HTMLDivElement>(null);
+  const [index, setIndex] = useState(0);
+
+  const onScroll = () => {
+    const el = row.current;
+    if (!el || el.children.length < 2) return;
+    const cards = el.children as HTMLCollectionOf<HTMLElement>;
+    // The last card can't snap to the start edge, so treat "scrolled to the end" as the last card.
+    if (el.scrollLeft >= el.scrollWidth - el.clientWidth - 4) {
+      setIndex(items.length - 1);
+      return;
+    }
+    const step = cards[1].offsetLeft - cards[0].offsetLeft;
+    setIndex(Math.min(items.length - 1, Math.max(0, Math.round(el.scrollLeft / step))));
+  };
+
+  // Scroll only the row (scrollIntoView could also move the page vertically).
+  const goTo = (i: number) => {
+    const el = row.current;
+    const cards = el?.children as HTMLCollectionOf<HTMLElement> | undefined;
+    if (!el || !cards?.[i]) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollTo({
+      left: cards[i].offsetLeft - cards[0].offsetLeft,
+      behavior: reduce ? "auto" : "smooth",
+    });
+  };
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div
+        ref={row}
+        onScroll={onScroll}
+        className="-mx-5 no-scrollbar flex snap-x snap-mandatory scroll-px-5 gap-4 overflow-x-auto px-5 pb-2 sm:-mx-7 sm:scroll-px-7 sm:px-7 md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0 md:pb-0 lg:gap-6"
+      >
+        {items.map((p) => (
+          <div key={p.slug} className="w-[85%] shrink-0 snap-start sm:w-[58%] md:w-auto">
+            <ProgrammeCard programme={p} />
+          </div>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-between gap-4 md:hidden">
+        <p className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+          Swipe to see more
+          <ArrowRight aria-hidden className="size-3.5 text-orange" />
+        </p>
+        <div className="flex items-center">
+          {items.map((p, i) => (
+            <button
+              key={p.slug}
+              type="button"
+              onClick={() => goTo(i)}
+              aria-label={`Show card ${i + 1} of ${items.length}`}
+              aria-current={index === i ? "true" : undefined}
+              className="grid h-6 place-items-center px-1"
+            >
+              <span
+                className={cn(
+                  "block h-2 rounded-full transition-all duration-300",
+                  index === i ? "w-5 bg-orange" : "w-2 bg-navy/20",
+                )}
+              />
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 

@@ -18,17 +18,31 @@
      Form inputs ........... 16px minimum (stops iOS Safari zooming on focus)
    ────────────────────────────────────────────────────────────────────────── */
 
-/* Row of call-to-action buttons: side by side from 640px, stacked full-width on phones.
-   Usage: <div className="btn-group"> <Button …/> <Button …/> </div> */
+/* Row of call-to-action buttons. Always one row; on phones the buttons split the width
+   equally with compact text and no icons. A label that still doesn't fit wraps inside its
+   button rather than overflowing (keep phone labels short — see `sm:hidden` short labels).
+   Usage: <div className="btn-group"> <Button …/> <Button …/> </div>
+   `:is(a, button)` lifts specificity above single-class utilities such as px-5 / text-sm. */
 @utility btn-group {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
   @media (width < 40rem) {
-    flex-direction: column;
-    align-items: stretch;
-    & > * {
-      width: 100%;
+    flex-wrap: nowrap;
+    gap: 0.625rem;
+    & > :is(a, button) {
+      flex: 1 1 0;
+      min-width: 0;
+      height: auto;
+      min-height: 2.75rem;
+      padding: 0.5rem 0.625rem;
+      font-size: 13px;
+      line-height: 1.25;
+      text-align: center;
+      text-wrap: balance;
+    }
+    & > :is(a, button) svg {
+      display: none;
     }
   }
 }
